@@ -97,7 +97,7 @@ public class DAO extends DbConnector{
         }
         return null;
     }
-
+//получение всех фильмов
     public ArrayList<Movie> getAllMovies() throws SQLException{
         try {
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM movie \n" ));
@@ -127,8 +127,8 @@ public class DAO extends DbConnector{
         }
         return null;
     }
-
-    /*public ArrayList<Client> getAllClients() throws SQLException{
+    //получение всех клиентов
+    public ArrayList<Client> getAllClients() throws SQLException{
         try {
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM client INNER JOIN person ON client.person_id=person.person_id;"));
             ArrayList<Client> clintList = new ArrayList<>();
@@ -140,10 +140,7 @@ public class DAO extends DbConnector{
                         rs.getString("lastname"),
                         rs.getString("personal_phone"),
                         Integer.parseInt(rs.getString("client_id")),
-                        rs.getString("district"),
-                        rs.getString("birth_date"),
-                        rs.getString("address"),
-                        rs.getString("passport_id")
+                        Integer.parseInt(rs.getString("age"))
                 );
                 clintList.add(client);
             }
@@ -155,7 +152,7 @@ public class DAO extends DbConnector{
         return null;
     }
 
-    public ArrayList<Schedule> getRecordsSchedule(Doctor doctor){
+    /*public ArrayList<Schedule> getRecordsSchedule(Doctor doctor){
         try{
             ArrayList<Schedule> scheduleList = new ArrayList<>();
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT schedule, WEEKDAY(curdate()) as daynum FROM doctor where doctor_id='%d';", doctor.getId()));

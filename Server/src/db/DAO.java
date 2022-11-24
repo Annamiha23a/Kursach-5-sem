@@ -5,6 +5,7 @@ import model.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Statement;
 
 public class DAO extends DbConnector{
     public DAO() {
@@ -103,7 +104,9 @@ public class DAO extends DbConnector{
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM movie \n" ));
             ArrayList<Movie> movieList = new ArrayList<>();
             while(rs.next()){
+                String schedule[];
                 String places[];
+                schedule = rs.getString("schedule").split("-", 14);
                 places = rs.getString("places").split("-", 14);
                 for(int i = 0; i < places.length; i++){
                     if(places[i] == null) places[i] = "";
@@ -116,6 +119,7 @@ public class DAO extends DbConnector{
                         Integer.parseInt(rs.getString("duration")),
                         Integer.parseInt(rs.getString("ageLimit")),
                         rs.getString("producer"),
+                        schedule,
                         places
                 );
                 movieList.add(movie);
@@ -152,35 +156,52 @@ public class DAO extends DbConnector{
         return null;
     }
 
-    /*public ArrayList<Schedule> getRecordsSchedule(Doctor doctor){
+    //получение расписания
+    public ArrayList<Places> getRecordsSchedule(Movie movie){
         try{
-            ArrayList<Schedule> scheduleList = new ArrayList<>();
-            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT schedule, WEEKDAY(curdate()) as daynum FROM doctor where doctor_id='%d';", doctor.getId()));
+            ArrayList<Places> placesList = new ArrayList<>();
+            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT schedule FROM movie where movie_id='%d';", movie.getId()));
             if(rs.next()){
-                String doctorSchedule[] = rs.getString("schedule").split("-", 14);
+                String movieSchedule[] = rs.getString("schedule").split("-", 14);
                 int curdamynum = Integer.parseInt(rs.getString("daynum"));
                 int day = curdamynum;
                 int interval = 0;
                 while(day < 7){
                     ResultSet rsDateFirst = super.getStatement().executeQuery(String.format("SELECT adddate(curdate(), interval '%d' day) AS date;", interval));
                     if(rsDateFirst.next()){
-                        String currentTime = doctorSchedule[day*2];
+                        String currentTime = movieSchedule[day*2];
                         if(currentTime != null){
-                            while(!currentTime.equals(doctorSchedule[day*2+1])){
-                                Schedule schedule = new Schedule();
+                            while(!currentTime.equals(movieSchedule[day*2+1])){
+
+                                Places schedule[]=new Places[5];
+
+                                schedule[0]= new Places();
+                                schedule[1]= new Places();
+                                schedule[2]= new Places();
+                                schedule[3]= new Places();
+                                schedule[4]= new Places();
+
+
                                 Statement statement = super.getConnection().createStatement();
-                                ResultSet rsOldRecord = statement.executeQuery(String.format("SELECT * FROM visit \n" +
-                                        "INNER JOIN client on visit.client_id=client.client_id \n" +
-                                        "INNER JOIN doctor on visit.doctor_id=doctor.doctor_id\n" +
-                                        "WHERE doctor.doctor_id='%d' AND time='%s' AND date='%s';", doctor.getId(), currentTime, rsDateFirst.getString("date")));
-                                if(rsOldRecord.next()){
-                                    schedule.setRegistrationTime(rsOldRecord.getString("registration_date"));
-                                    schedule.setPassportNumber(rsOldRecord.getString("passport_id"));
-                                    schedule.setComment(rsOldRecord.getString("comment"));
+                                ResultSet rsOldRecord = statement.executeQuery(String.format("SELECT * FROM ticket \n" +
+                                        "INNER JOIN client on ticket.client_id=client.client_id \n" +
+                                        "INNER JOIN doctor on ticket.movie_id=movie.movie_id\n" +
+                                        "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
+                                for(int i=0;i<5;i++){
+                                    if(rsOldRecord.next()){
+
+                                        schedule[i].setPlace(rsOldRecord.getString("place"));
+                                        schedule[i].setRegistrationTime(rsOldRecord.getString("registration_date"));
+                                        schedule[i].setPhoneNumber(rsOldRecord.getString("phone_number"));
+                                        schedule[i].setComment(rsOldRecord.getString("comment"));
+                                    }
+                                    schedule[i].setDate(rsDateFirst.getString("date"));
+                                    schedule[i].setTime(currentTime);
+                                    placesList.add(schedule[i]);
                                 }
-                                schedule.setDate(rsDateFirst.getString("date"));
-                                schedule.setTime(currentTime);
-                                scheduleList.add(schedule);
+
+
+
                                 String hms[] = currentTime.split(":");
                                 int hour = Integer.parseInt(hms[0]);
                                 hour++;
@@ -196,24 +217,33 @@ public class DAO extends DbConnector{
                 while(day < curdamynum){
                     ResultSet rsDateFirst = super.getStatement().executeQuery(String.format("SELECT adddate(curdate(), interval '%d' day) AS date;", interval));
                     if(rsDateFirst.next()){
-                        String currentTime = doctorSchedule[day*2];
+                        String currentTime = movieSchedule[day*2];
                         if(currentTime != null){
-                            while(!currentTime.equals(doctorSchedule[day*2+1])){
-                                Schedule schedule = new Schedule();
+                            while(!currentTime.equals(movieSchedule[day*2+1])){
+                                Places schedule[] = new Places[5];
+                                schedule[0]=new Places();
+                                schedule[1]=new Places();
+                                schedule[2]=new Places();
+                                schedule[3]=new Places();
+                                schedule[4]=new Places();
                                 Statement statement = super.getConnection().createStatement();
-                                ResultSet rsOldRecord1 = statement.executeQuery(String.format("SELECT * FROM visit \n" +
-                                        "INNER JOIN client on visit.client_id=client.client_id \n" +
-                                        "INNER JOIN doctor on visit.doctor_id=doctor.doctor_id\n" +
-                                        "WHERE doctor.doctor_id='%d' AND time='%s' AND date='%s';", doctor.getId(), currentTime, rsDateFirst.getString("date")));
-                                if(rsOldRecord1.next()){
-                                    schedule.setRegistrationTime(rsOldRecord1.getString("registration_date"));
-                                    schedule.setPassportNumber(rsOldRecord1.getString("passport_id"));
-                                    schedule.setComment(rsOldRecord1.getString("comment"));
-                                }
-                                schedule.setDate(rsDateFirst.getString("date"));
-                                schedule.setTime(currentTime);
+                                ResultSet rsOldRecord1 = statement.executeQuery(String.format("SELECT * FROM ticket \n" +
+                                        "INNER JOIN client on ticket.client_id=client.client_id \n" +
+                                        "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
+                                        "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
+                                for(int i_nex=0;i_nex<5;i_nex++){
+                                    if(rsOldRecord1.next()){
+                                        schedule[i_nex].setPlace(rsOldRecord1.getString("place"));
+                                        schedule[i_nex].setRegistrationTime(rsOldRecord1.getString("registration_date"));
+                                        schedule[i_nex].setPhoneNumber(rsOldRecord1.getString("phoneNumber"));
+                                        schedule[i_nex].setComment(rsOldRecord1.getString("comment"));
+                                    }
+                                    schedule[i_nex].setDate(rsDateFirst.getString("date"));
+                                    schedule[i_nex].setTime(currentTime);
 
-                                scheduleList.add(schedule);
+                                    placesList.add(schedule[i_nex]);
+                                }
+
                                 String hms[] = currentTime.split(":");
                                 int hour = Integer.parseInt(hms[0]);
                                 hour++;
@@ -226,13 +256,13 @@ public class DAO extends DbConnector{
                     day++;
                 }
             }
-            return scheduleList;
+            return placesList;
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
         return null;
     }
-
+/*
     public ArrayList<Visits> getAllVisits(){
         try {
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM visit WHERE date>=curdate();"));

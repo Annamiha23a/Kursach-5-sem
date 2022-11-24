@@ -9,6 +9,7 @@ public class Movie implements Serializable {
     private int duration;
     private int ageLimit;
     private String producer;
+    private String[] schedule=new String[14];
     private String[] places=new String[15];
 
     public Movie(){
@@ -24,9 +25,12 @@ public class Movie implements Serializable {
         for(int i=0; i<15;i++){
             this.places[i]="";
         }
+        for(int i=0; i<14;i++){
+            this.schedule[i]="";
+        }
     }
 
-    public Movie(String name, String genre, String country, int year, int duration, int ageLimit, String producer, String[] places){
+    public Movie(String name, String genre, String country, int year, int duration, int ageLimit, String producer,String[] schedule, String[] places){
         setName(name);
         setGenre(genre);
         setCountry(country);
@@ -34,6 +38,7 @@ public class Movie implements Serializable {
         setDuration(duration);
         setAgeLimit(ageLimit);
         setProducer(producer);
+        setSchedule(schedule);
         setPlaces(places);
     }
     public int getId(){
@@ -98,6 +103,14 @@ public class Movie implements Serializable {
 
     public void setProducer(String producer) {
         this.producer = producer;
+    }
+
+    public String[] getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String[] schedule) {
+        this.schedule = schedule;
     }
 
     public String[] getPlaces() {

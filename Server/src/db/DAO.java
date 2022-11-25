@@ -262,24 +262,25 @@ public class DAO extends DbConnector{
         }
         return null;
     }
-/*
-    public ArrayList<Visits> getAllVisits(){
+
+    public ArrayList<Ticket> getAllTickets(){
         try {
-            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM visit WHERE date>=curdate();"));
-            ArrayList<Visits> visitsList = new ArrayList<>();
+            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM ticket WHERE date>=curdate();"));
+            ArrayList<Ticket> ticketsList = new ArrayList<>();
             while(rs.next()){
-                Visits visit = new Visits(
-                        Integer.parseInt(rs.getString("visit_id")),
+                Ticket ticket = new Ticket(
+                        Integer.parseInt(rs.getString("ticket_id")),
                         rs.getString("registration_date"),
                         rs.getString("date"),
                         rs.getString("time"),
+                        rs.getString("place"),
                         rs.getString("comment"),
-                        Integer.parseInt(rs.getString("doctor_id")),
+                        Integer.parseInt(rs.getString("movie_id")),
                         Integer.parseInt(rs.getString("client_id"))
                 );
-                visitsList.add(visit);
+                ticketsList.add(ticket);
             }
-            return visitsList;
+            return ticketsList;
         }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -287,23 +288,24 @@ public class DAO extends DbConnector{
         return null;
     }
 
-    public ArrayList<Visits> getAllVisitsDoctor(Doctor doctor){
+    public ArrayList<Ticket> getAllVisitsDoctor(Movie movie){
         try {
-            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM visit WHERE date>=curdate() AND doctor_id='%d';", doctor.getId()));
-            ArrayList<Visits> visitsList = new ArrayList<>();
+            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM ticket WHERE date>=curdate() AND movie_id='%d';", movie.getId()));
+            ArrayList<Ticket> ticketsList = new ArrayList<>();
             while(rs.next()){
-                Visits visit = new Visits(
+                Ticket ticket = new Ticket(
                         Integer.parseInt(rs.getString("visit_id")),
                         rs.getString("registration_date"),
                         rs.getString("date"),
                         rs.getString("time"),
+                        rs.getString("place"),
                         rs.getString("comment"),
-                        Integer.parseInt(rs.getString("doctor_id")),
+                        Integer.parseInt(rs.getString("movie_id")),
                         Integer.parseInt(rs.getString("client_id"))
                 );
-                visitsList.add(visit);
+                ticketsList.add(ticket);
             }
-            return visitsList;
+            return ticketsList;
         }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -311,25 +313,25 @@ public class DAO extends DbConnector{
         return null;
     }
 
-    public String getCheck(Visits visit) throws SQLException{
+    public String getCheck(Ticket ticket) throws SQLException{
         try{
-            ResultSet rs = super.getStatement().executeQuery(String.format("select * from visit \n" +
-                    "inner join client on visit.client_id=client.client_id\n" +
-                    "inner join doctor on visit.doctor_id=doctor.doctor_id\n" +
-                    "inner join user on doctor.user_id=user.user_id\n" +
-                    "inner join person on person.person_id=user.person_id\n" +
-                    "where visit.visit_id='%d';", visit.getId()));
+            ResultSet rs = super.getStatement().executeQuery(String.format("select * from ticket \n" +
+                    "inner join client on ticket.client_id=client.client_id\n" +
+                    "inner join movie on ticket.movie_id=movie.movie_id\n" +
+                    //"inner join user on doctor.user_id=user.user_id\n" +
+                    "inner join person on person.person_id=client.person_id\n" +
+                    "where ticket.ticket_id='%d';", ticket.getId()));
             while(rs.next()){
                 String result = "";
                 result += rs.getString("date") + "#";
                 result += rs.getString("time") + "#";
-                result += rs.getString("passport_id") + "#";
-                result += rs.getString("room") + "#";
-                result += rs.getString("post") + "#";
+                result += rs.getString("phone") + "#";
+                result += rs.getString("place") + "#";
+                result += rs.getString("name_m" ) + "#";/*перименовать потом, чтобы бралось название фильма, а не имя клиента*/
                 result += rs.getString("surname") + "#";
                 result += rs.getString("name") + "#";
                 result += rs.getString("lastname") + "#";
-                result += rs.getString("work_phone") + "#";
+                //result += rs.getString("work_phone") + "#";
                 return result;
             }
         }catch (Exception ex){
@@ -337,7 +339,7 @@ public class DAO extends DbConnector{
         }
         return "";
     }
-        */
+
 
     //-------------------------ДОБАВЛЕНИЕ ДАННЫХ-------------------------------------
 
@@ -359,28 +361,28 @@ public class DAO extends DbConnector{
         };
         return addData(addData);
     }
-
+    //добавление фильма, отредачить потом поля
     public String addMovie(Movie movie){
         String addData[] = {
                 String.format("INSERT INTO movie (name, genre, country, year, duration, ageLimit, producer, places) VALUES('%s', '%s', '%s', '%s','%s', '%s', '%s', '%s';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(), movie.getDuration(), movie.getAgeLimit(), movie.getProducer(), movie.getPlaces())
         };
         return addData(addData);
     }
-
-   /* public String addClient(Client client){
+    //добавление клиента
+    public String addClient(Client client){
         String addData[] = {
                 String.format("INSERT INTO person (name, surname, lastname, personal_phone) VALUES('%s', '%s', '%s', '%s');", client.getName(), client.getSurname(), client.getLastname(), client.getPhone()),
-                String.format("INSERT INTO client (district, birth_date, address, passport_id, person_id) VALUES('%s', '%s', '%s', '%s', last_insert_id());", client.getDistrict(), client.getDateOfBirth(), client.getAddress(), client.getPassportNumber())
+                String.format("INSERT INTO client (age, person_id) VALUES('%s', '%s', last_insert_id());", client.getAge())
         };
         return addData(addData);
     }
 
-    public String addVisit(Visits visit){
+    public String addTicket(Ticket ticket){
         String addData[] = {
-                String.format("INSERT INTO visit (registration_date, date, time, comment, doctor_id, client_id) VALUES(CURDATE(), '%s', '%s', '%s', '%d', '%d');", visit.getDate(), visit.getTime(), visit.getComment(), visit.getDoctor_id(), visit.getClient_id())
+                String.format("INSERT INTO ticket (registration_date, date, time, place, comment, doctor_id, client_id) VALUES(CURDATE(), '%s', '%s', '%s','%s', '%d', '%d');", ticket.getDate(), ticket.getTime(), ticket.getPlace(), ticket.getComment(), ticket.getMovie_id(), ticket.getClient_id())
         };
         return addData(addData);
-    }*/
+    }
 
     private String addData(String[] data){
         try{

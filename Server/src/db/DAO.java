@@ -399,7 +399,7 @@ public class DAO extends DbConnector{
 
     //--------------------------ОБНОВЛЕНИЕ ДАННЫХ--------------------------------------
 
-
+    //обновить запись об админе
     public String updateAdmin(Admin admin) throws SQLException{
         String statement = String.format("UPDATE user INNER JOIN person ON person.person_id=user.person_id \n" +
                         "INNER JOIN admin ON admin.user_id=user.user_id\n" +
@@ -416,7 +416,7 @@ public class DAO extends DbConnector{
         }
         return "Не удалось изменить данные";
     }
-
+    //обновить запись о пользователе
     public String updateUser(User user) throws SQLException{
         String statement = String.format("UPDATE user INNER JOIN person ON person.person_id=user.person_id \n" +
                         "SET name='%s',surname='%s',lastname='%s',personal_phone='%s'," +
@@ -425,22 +425,21 @@ public class DAO extends DbConnector{
                 user.getLogin(), user.getWork_phone(), user.getId());
         return updateData(statement);
     }
-
-    /*public String updateDoctor(Doctor doctor) throws SQLException{
+    //обавить запись о фильме
+    public String updateMovie(Movie movie) throws SQLException{
         String schedule = "";
         for(int i = 0; i < 14; i++){
-            schedule += doctor.getSchedule()[i];
+            schedule += movie.getSchedule()[i];
             if(i == 13) break;
             schedule += "-";
         }
-        String statement = String.format("UPDATE user INNER JOIN person ON person.person_id=user.person_id \n" +
-                        "INNER JOIN doctor ON doctor.user_id=user.user_id\n" +
-                        "SET name='%s',surname='%s',lastname='%s',personal_phone='%s',login='%s',work_phone='%s',post='%s',room='%s',district='%s',schedule='%s'\n" +
-                        "WHERE user.user_id='%d';", doctor.getName(), doctor.getSurname(), doctor.getLastname(), doctor.getPhone(),
-                doctor.getLogin(), doctor.getWork_phone(), doctor.getPost(), doctor.getRoom(), doctor.getDistrict(), schedule, doctor.getUserId());
+        String statement = String.format("UPDATE movie  \n" +
+                        "SET name='%s',genre='%s',country='%s',year='%s',duration='%s',ageLimit='%s',producer='%s',places='%s',schedule='%s'\n" +
+                        "WHERE user.user_id='%d';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(),
+                movie.getDuration(), movie.getAgeLimit(), movie.getProducer(), movie.getPlaces(),  schedule);
         return updateData(statement);
-    }*/
-
+    }
+    //обновление моих пользовательских данных
     public String updateMyUserData(User user) throws SQLException{
         String statement = String.format("UPDATE user SET login='%s',password='%s',work_phone='%s' where user_id='%d';",
                 user.getLogin(), user.getPassword(), user.getWork_phone(), user.getId());
@@ -455,26 +454,26 @@ public class DAO extends DbConnector{
         }
         return "Не удалось изменить данные";
     }
-
+    //обновление данных личности по конкретному пользователю
     public String updatePerson(User user) throws SQLException{
         String statement = String.format("UPDATE person inner join user on person.person_id=user.user_id SET name='%s', surname='%s', " +
                 "lastname='%s', personal_phone='%s' where user_id='%d';", user.getName(), user.getSurname(),user.getLastname(), user.getPhone(), user.getId());
         return updateData(statement);
     }
-
+    //обновление пароля
     public String updatePassword(User user){
         String statement = String.format("UPDATE user SET password='%s' WHERE user.user_id='%d';", user.getPassword(), user.getId());
         return updateData(statement);
     }
-
-  /*  public String updateClient(Client client){
+    //обновление записи о клиенте
+   public String updateClient(Client client){
         String statement = String.format("UPDATE client INNER JOIN person ON person.person_id=client.person_id \n" +
                 "SET name='%s',surname='%s',lastname='%s',personal_phone='%s'," +
-                "district='%s',birth_date='%s',address='%s',passport_id='%s'\n" +
-                " WHERE client.client_id='%d';", client.getName(), client.getSurname(), client.getLastname(), client.getPhone(), client.getDistrict(), client.getDateOfBirth(), client.getAddress(), client.getPassportNumber(), client.getId());
+                "age='%s'\n" +
+                " WHERE client.client_id='%d';", client.getName(), client.getSurname(), client.getLastname(), client.getPhone(), client.getAge(),  client.getId());
         return updateData(statement);
-    }*/
-
+    }
+    //обновление данных
     private String updateData(String statement){
         try {
             super.getStatement().executeUpdate(statement);
@@ -488,7 +487,7 @@ public class DAO extends DbConnector{
 
     //------------------------------УДАЛЕНИЕ ДАННЫХ----------------------------------
 
-
+    //удаление записи об админе
     public String deleteAdmin(Admin deleteAdmin){
         String statement = String.format("DELETE from admin, user, person " +
                 "USING admin, user, person " +
@@ -503,7 +502,7 @@ public class DAO extends DbConnector{
         return "Не удалось удалить данные!";
     }
 
-
+    //удаление записи об пользователе
     public String deleteUser(User deleteUser){
         String statement = String.format("DELETE from user, person " +
                 "USING user, person " +
@@ -517,11 +516,11 @@ public class DAO extends DbConnector{
         }
         return "Не удалось удалить данные!";
     }
-
-   /* public String deleteClient(Client client){
-        String statement = String.format("DELETE from client, person, visit " +
-                "USING client, person, visit " +
-                "WHERE client.person_id=person.person_id && client.client_id=visit.client_id && client.client_id='%d';", client.getId());
+    //удаление записи об клиенте
+   public String deleteClient(Client client){
+        String statement = String.format("DELETE from client, person, ticket " +
+                "USING client, person, ticket " +
+                "WHERE client.person_id=person.person_id && client.client_id=ticket.client_id && client.client_id='%d';", client.getId());
         try{
             super.getStatement().execute(statement);
             return "Успешно удалено!";
@@ -531,9 +530,9 @@ public class DAO extends DbConnector{
         }
         return "Не удалось удалить данные!";
     }
-
-    public String deleteDoctor(Doctor doctor){
-        String statement = String.format("DELETE from person, doctor, user USING person, doctor, user WHERE person.person_id=user.person_id and user.user_id=doctor.user_id and doctor.doctor_id='%d';", doctor.getId());
+    //удаление записи об фильме
+    public String deleteMovie(Movie movie){
+        String statement = String.format("DELETE from  movie USING movie WHERE  movie.movie_id='%d';", movie.getId());
         try{
             super.getStatement().execute(statement);
             return "Успешно удалено!";
@@ -542,5 +541,5 @@ public class DAO extends DbConnector{
             System.out.println(ex.getMessage());
         }
         return "Не удалось удалить данные!";
-    }*/
+    }
 }

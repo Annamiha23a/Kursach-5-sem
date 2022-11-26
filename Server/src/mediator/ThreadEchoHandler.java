@@ -43,23 +43,23 @@ public class ThreadEchoHandler implements Runnable{
                     case "getAllUsers":
                         output.writeObject(dao.getAllUsers());
                         break;
-                    /*case "getAllDoctors":
-                        output.writeObject(dao.getAllDoctors());
+                    case "getAllMovies":
+                        output.writeObject(dao.getAllMovies());
                         break;
                     case "getAllClients":
                         output.writeObject(dao.getAllClients());
                         break;
                     case "getRecordsSchedule":
-                        Doctor doctor = (Doctor) input.readObject();
-                        output.writeObject(dao.getRecordsSchedule(doctor));
+                        Movie movie = (Movie) input.readObject();
+                        output.writeObject(dao.getRecordsSchedule(movie));
                         break;
-                    case "getAllVisits":
-                        output.writeObject(dao.getAllVisits());
+                    case "getAllTickets":
+                        output.writeObject(dao.getAllTickets());
                         break;
-                    case "getAllVisitsDoctor":
-                        Doctor workdoctor = (Doctor) input.readObject();
-                        output.writeObject(dao.getAllVisitsDoctor(workdoctor));
-                        break;*/
+                    case "getAllTicketMovies":
+                        Movie workmovie = (Movie) input.readObject();
+                        output.writeObject(dao.getAllVisitsDoctor(workmovie));
+                        break;
                     case "insertAdmin":
                         Admin newAdmin = (Admin) input.readObject();
                         output.writeObject(dao.addAdmin(newAdmin));
@@ -68,18 +68,18 @@ public class ThreadEchoHandler implements Runnable{
                         User newUser = (User) input.readObject();
                         output.writeObject(dao.addUser(newUser));
                         break;
-                    /*case "insertDoctor":
-                        Doctor newDoctor = (Doctor) input.readObject();
-                        output.writeObject(dao.addDoctor(newDoctor));
+                    case "insertMovie":
+                        Movie newMovie = (Movie) input.readObject();
+                        output.writeObject(dao.addMovie(newMovie));
                         break;
                     case "insertClient":
                         Client newClient = (Client) input.readObject();
                         output.writeObject(dao.addClient(newClient));
                         break;
                     case "insertVisit":
-                        Visits addVisit = (Visits) input.readObject();
-                        output.writeObject(dao.addVisit(addVisit));
-                        break;*/
+                        Ticket addTicket = (Ticket) input.readObject();
+                        output.writeObject(dao.addTicket(addTicket));
+                        break;
                     case "updateMyUserData":
                         User updateMyUserData = (User) input.readObject();
                         output.writeObject(dao.updateMyUserData(updateMyUserData));
@@ -100,14 +100,14 @@ public class ThreadEchoHandler implements Runnable{
                         User updateUser = (User) input.readObject();
                         output.writeObject(dao.updateUser(updateUser));
                         break;
-                   /* case "updateDoctor":
-                        Doctor updateDoctor = (Doctor) input.readObject();
-                        output.writeObject(dao.updateDoctor(updateDoctor));
+                   case "updateMovie":
+                        Movie updateMovie = (Movie) input.readObject();
+                        output.writeObject(dao.updateMovie(updateMovie));
                         break;
                     case "updateClient":
                         Client updateClient = (Client) input.readObject();
                         output.writeObject(dao.updateClient(updateClient));
-                        break;*/
+                        break;
                     case "deleteAdmin":
                         Admin deleteAdmin = (Admin) input.readObject();
                         output.writeObject(dao.deleteAdmin(deleteAdmin));
@@ -116,18 +116,18 @@ public class ThreadEchoHandler implements Runnable{
                         User deleteUser = (User) input.readObject();
                         output.writeObject(dao.deleteUser(deleteUser));
                         break;
-                    /*case "deleteClient":
+                    case "deleteClient":
                         Client deletClient = (Client) input.readObject();
                         output.writeObject(dao.deleteClient(deletClient));
                         break;
-                    case "deleteDoctor":
-                        Doctor deleteDoctor = (Doctor) input.readObject();
-                        output.writeObject(dao.deleteDoctor(deleteDoctor));
+                    case "deleteMovie":
+                        Movie deleteMovie = (Movie) input.readObject();
+                        output.writeObject(dao.deleteMovie(deleteMovie));
                         break;
                     case "getCheck":
-                        Visits currentVisit = (Visits) input.readObject();
-                        output.writeObject(dao.getCheck(currentVisit));
-                        break;*/
+                        Ticket currentTicket = (Ticket) input.readObject();
+                        output.writeObject(dao.getCheck(currentTicket));
+                        break;
 
 
                 }

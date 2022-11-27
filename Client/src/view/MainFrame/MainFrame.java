@@ -1,4 +1,4 @@
-package MainFrame;
+package view.MainFrame;
 
 import javax.swing.*;
 import java.io.ObjectInputStream;

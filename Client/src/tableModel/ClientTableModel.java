@@ -32,7 +32,7 @@ public class ClientTableModel implements TableModel{
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return "Номер паспорта";
+                return "Номер телефона";
             case 1:
                 return "Фамилия";
             case 2:
@@ -40,13 +40,7 @@ public class ClientTableModel implements TableModel{
             case 3:
                 return "Отчество";
             case 4:
-                return "Телефон";
-            case 5:
-                return "Участок";
-            case 6:
-                return "Дата рождения";
-            case 7:
-                return "Адрес";
+                return "Возраст";
         }
         return "";
     }
@@ -59,9 +53,6 @@ public class ClientTableModel implements TableModel{
             case 2: return String.class;
             case 3: return String.class;
             case 4: return String.class;
-            case 5: return String.class;
-            case 6: return String.class;
-            case 7: return String.class;
             default: return Object.class;
         }
     }

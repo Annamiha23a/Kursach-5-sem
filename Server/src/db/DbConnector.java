@@ -12,7 +12,7 @@ public class DbConnector {
     public void connectToDB() {
         try {
 
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_bd?characterEncoding=utf8","root", "1234");
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema_bd?characterEncoding=utf8","root", "1234");
             System.out.println("Успешное соединение");
             this.statement = connection.createStatement();
         } catch (SQLException e) {

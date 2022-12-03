@@ -32,6 +32,7 @@ public class MainFrame extends JFrame{
     public static ObjectInputStream input;
     public static int user_id;
 
+    //установление соединения
     public static void connect(){
         try{
             clientSocket = new Socket("127.0.0.1", 2626);
@@ -44,6 +45,7 @@ public class MainFrame extends JFrame{
     }
 
     @SuppressWarnings("unchecked")
+    //инфа об окне
     private void initComponents() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Главное меню");
@@ -72,9 +74,12 @@ public class MainFrame extends JFrame{
 
 
     public MainFrame() {
+        //создание окна
         initComponents();
+        //прослушиватель действий
         entranceButton.addActionListener(new ActionListener() {
             @Override
+            //функция обработки действия
             public void actionPerformed(ActionEvent e) {
                 try{
                     ObjectOutputStream output = MainFrame.output;
@@ -82,22 +87,27 @@ public class MainFrame extends JFrame{
                     User user = new User();
                     user.setLogin(loginField.getText());
                     user.setPassword(passwordField.getText());
+                    //не введён логин
                     if(user.getLogin().equals("")){
                         JOptionPane.showMessageDialog(null, "Вы не ввели логин!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    //неподходящая длина логина
                     else if (user.getLogin().length() <= 4 || user.getLogin().length() >= 15){
                         JOptionPane.showMessageDialog(null, "Логин должен быть больше 4 и меньше 15 символов!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    //не ввели пароль
                     else if(user.getPassword().equals("")) {
                         JOptionPane.showMessageDialog(null, "Вы не ввели пароль!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    //неверная длина пароля
                     else if(user.getPassword().length() <= 4 || user.getPassword().length() >= 15) {
                         JOptionPane.showMessageDialog(null, "Пароль должен быть больше 4 и меньше 15 символов!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    //если
                     else{
                         output.writeObject("authorization");
                         output.writeObject(user);
@@ -133,8 +143,11 @@ public class MainFrame extends JFrame{
     }
 
     public static void main(String args[]) {
+        //вызов функции для установления соединения
         MainFrame.connect();
+        //передача в другой поток
         java.awt.EventQueue.invokeLater(new Runnable() {
+            //делает окно видимым, конструктор класса
             public void run() {
                 new MainFrame().setVisible(true);
             }

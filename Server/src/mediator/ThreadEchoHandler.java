@@ -49,9 +49,9 @@ public class ThreadEchoHandler implements Runnable{
                     case "getAllClients":
                         output.writeObject(dao.getAllClients());
                         break;
-                    case "getRecordsSchedule":
+                    case "getRecordsPlaces":
                         Movie movie = (Movie) input.readObject();
-                        output.writeObject(dao.getRecordsSchedule(movie));
+                        output.writeObject(dao.getRecordsPlaces(movie));
                         break;
                     case "getAllTickets":
                         output.writeObject(dao.getAllTickets());

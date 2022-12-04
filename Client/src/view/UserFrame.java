@@ -31,7 +31,7 @@ public class UserFrame  extends JFrame{
     private JTabbedPane tabbedPane2;
     private JTable workClientsTable;
     private JTable recordClientsTable;
-    private JTable recordDoctorsTable;
+    private JTable recordMoviesTable;
     private JTable addPlaceTable;
     private JTextField commentTextField;
     private JButton addRecordButton;
@@ -43,9 +43,6 @@ public class UserFrame  extends JFrame{
     private JTextField newClientSurnameField;
     private JTextField newClientNameField;
     private JTextField newClientLastnameField;
-
-    private JTextField newClientBirthDateField;
-    private JTextField newClientAddressField;
     private JButton editClientButton;
     private JCheckBox deleteClientCheckBox;
     private JButton deleteClientButton;
@@ -87,8 +84,8 @@ public class UserFrame  extends JFrame{
         recordClientsTable.setModel(clientsModel);
         recordClientsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         TableModel doctorsModel = new MovieTableModel(new ArrayList<>());
-        recordDoctorsTable.setModel(doctorsModel);
-        recordDoctorsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        recordMoviesTable.setModel(doctorsModel);
+        recordMoviesTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         addPlaceTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         TableModel visitsModel = new TicketTableModel(tickets, clients);
         recordsTable.setModel(visitsModel);
@@ -122,10 +119,10 @@ public class UserFrame  extends JFrame{
                 recordClientsTableActionPerformed();
             }
         });
-        recordDoctorsTable.addMouseListener(new MouseAdapter() {
+        recordMoviesTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                recordDoctorsTableActionPerformed();
+                recordMoviesTableActionPerformed();
             }
         });
         addRecordButton.addActionListener(e -> addRecordButtonActionPerformed());
@@ -165,7 +162,7 @@ public class UserFrame  extends JFrame{
             this.tickets = (ArrayList<Ticket>) input.readObject();
         }
         catch (Exception ex){
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка чтения данных", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -183,12 +180,13 @@ public class UserFrame  extends JFrame{
         addPlaceTable.setModel(scheduleModel);
         currentmovies.clear();
         TableModel doctorsModel = new MovieTableModel(currentmovies);
-        recordDoctorsTable.setModel(doctorsModel);
+        recordMoviesTable.setModel(doctorsModel);
         TableModel visitsModel = new TicketTableModel(tickets, clients);
         recordsTable.setModel(visitsModel);
         recordsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
     }
 
+    //редактирование логина
     private Boolean checkLogin(String login) {
         if (login.equals("")) {
             JOptionPane.showMessageDialog(null, "Вы не ввели логин!", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -213,6 +211,7 @@ public class UserFrame  extends JFrame{
         }
     }
 
+    //редактирование пароля
     private Boolean checkPassword(String password, String provePassword) {
         if(password.equals("") || provePassword.equals("")) {
             JOptionPane.showMessageDialog(null, "Вы не ввели пароль!", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -228,29 +227,31 @@ public class UserFrame  extends JFrame{
         }
         else return true;
     }
-
-    private Boolean checkPassportAndDistrict(String passportNumber, String district){
-        if(passportNumber.equals("")){
-            JOptionPane.showMessageDialog(null, "Вы не ввели номер телефона!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+    //проверка, введены ли номер телефона и возвраст
+    private Boolean checkNumberAndAge(String phoneNumber, String age){
+        if(phoneNumber.equals("")){
+            JOptionPane.showMessageDialog(null, "Вы не ввели номер телефона!", "Ошибка заполнения", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if(district.equals("")){
-            JOptionPane.showMessageDialog(null, "Вы не ввели возраст!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+        if(age.equals("")){
+            JOptionPane.showMessageDialog(null, "Вы не ввели возраст!", "Ошибка заполнения", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
 
-    private Boolean checkPassport(String passportNumber){
+    //проверка, есть ли данный номер в базе
+    private Boolean checkNumber(String phoneNumber){
         for (int i = 0; i < clients.size(); i++) {
-            if (passportNumber.equals(clients.get(i).getPhone())) {
-                JOptionPane.showMessageDialog(null, "Данный номер телефона уже есть в системе!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            if (phoneNumber.equals(clients.get(i).getPhone())) {
+                JOptionPane.showMessageDialog(null, "Данный номер телефона уже есть в системе!", "Ошибка ввода", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
         return true;
     }
 
+    //очистить форму редактирования и пароль
     private void clearEditAndPasswordForm(){
         editClientPhoneField.setText("");
         editClientAgeField.setText("");
@@ -263,13 +264,15 @@ public class UserFrame  extends JFrame{
     //-------------------------------ФУНКЦИИ-СЛУШАТЕЛИ-------------------------------
 
 
+    //закрытие окна
     private void closeFrameActionPerformed(){
         new MainFrame().setVisible(true);
         dispose();
     }
 
+    //редактирование моих персональных данных
     private void editMyPersonalDataActionPerformed(){
-        if(mySurnameField.isEditable()) {
+        if(mySurnameField.isEditable()) {//Возвращает true, если JComboBoxобъект доступен для редактирования.
             try {
                 User user = new User();
                 user.setId(USER_ID);
@@ -277,11 +280,11 @@ public class UserFrame  extends JFrame{
                 user.setName(myNameField.getText());
                 user.setLastname(myLastnameField.getText());
                 user.setPhone(myPhoneField.getText());
-                output.writeObject("updatePerson");
+                output.writeObject("updatePerson"); //вызывает функцию редактирования персональных данных
                 output.writeObject(user);
                 String result = (String) input.readObject();
                 JOptionPane.showMessageDialog(null, result, "Результат", JOptionPane.INFORMATION_MESSAGE);
-                if (result.equals("Успешно сохранено!")) {
+                if (result.equals("Успешно сохранено!")) { //если успешное сохранение, то поля обновляются
                     for (int i = 0; i < users.size(); i++) {
                         if (USER_ID == users.get(i).getId()) {
                             User updateUser = users.get(i);
@@ -296,14 +299,14 @@ public class UserFrame  extends JFrame{
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
-            mySurnameField.setEditable(false);
+            mySurnameField.setEditable(false); //блокировка редактирования полей.
             myNameField.setEditable(false);
             myLastnameField.setEditable(false);
             myPhoneField.setEditable(false);
             editMyPersonalDataButton.setText("Редактировать личные данные");
         }
         else{
-            mySurnameField.setEditable(true);
+            mySurnameField.setEditable(true); //разблокировка редактирования полей
             myNameField.setEditable(true);
             myLastnameField.setEditable(true);
             myPhoneField.setEditable(true);
@@ -311,6 +314,7 @@ public class UserFrame  extends JFrame{
         }
     }
 
+    //редактирование моих данных пользователя
     private void editMyAuthorizationDataActionPerformed(){
         if(myLoginField.isEditable()){
             if(!checkLogin(myLoginField.getText())) return;
@@ -356,20 +360,19 @@ public class UserFrame  extends JFrame{
         }
     }
 
+    //очистка формы в созданнии нового клиента
     private void clearNewClientFormActionPerformed(){
         newClientPhoneField.setText("");
         newClientAgeField.setText("");
         newClientSurnameField.setText("");
         newClientNameField.setText("");
         newClientLastnameField.setText("");
-        newClientPhoneField.setText("");
-        newClientBirthDateField.setText("");
-        newClientAddressField.setText("");
     }
 
+    //добавление клиента
     private void addClientActionPerformed(){
-        if(!checkPassportAndDistrict(newClientPhoneField.getText(), newClientAgeField.getText())) return;
-        if(!checkPassport(newClientPhoneField.getText())) return;
+        if(!checkNumberAndAge(newClientPhoneField.getText(), newClientAgeField.getText())) return;
+        if(!checkNumber(newClientPhoneField.getText())) return;
         try{
             Client client = new Client();
             client.setPhone(newClientPhoneField.getText());
@@ -398,14 +401,15 @@ public class UserFrame  extends JFrame{
 
     }
 
+    //редактирование данных клиента
     private void editClientActionPerformed(){
         try{
             Client client;
             try{
                 client = clients.get(workClientsTable.getSelectedRow());
-                if(!checkPassportAndDistrict(editClientPhoneField.getText(), editClientAgeField.getText())) return;
+                if(!checkNumberAndAge(editClientPhoneField.getText(), editClientAgeField.getText())) return;
                 if(!editClientPhoneField.getText().equals(client.getPhone())){
-                    if(!checkPassport(editClientPhoneField.getText())) return;
+                    if(!checkNumber(editClientPhoneField.getText())) return;
                 }
                 client.setPhone(editClientPhoneField.getText());
                 client.setAge(editClientAgeField.getText());
@@ -414,7 +418,7 @@ public class UserFrame  extends JFrame{
                 client.setLastname(editClientLastnameField.getText());
             }
             catch (Exception ex){
-                JOptionPane.showMessageDialog(null, "Нужно выбрать клиента из списка!" , "Ошибка", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Нужно выбрать клиента из списка!" , "Ошибка редактирования", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             output.writeObject("updateClient");
@@ -427,23 +431,25 @@ public class UserFrame  extends JFrame{
         }
     }
 
+    //запись клиента
     private void recordClientsTableActionPerformed(){
-        Client client = clients.get(recordClientsTable.getSelectedRow());
+        Client client = clients.get(recordClientsTable.getSelectedRow()); //выбор клиента
         currentmovies.clear();
         for(int i = 0; i < movies.size(); i++){
-            if(client.getAge().equals(movies.get(i).getAgeLimit())){
+            if(client.getAge().equals(movies.get(i).getAgeLimit())){ //подбор фильма по возраст клиента
                 currentmovies.add(movies.get(i));
             }
         }
-        TableModel moviesModel = new MovieTableModel(currentmovies);
-        recordDoctorsTable.setModel(moviesModel);
+        TableModel moviesModel = new MovieTableModel(currentmovies); //выводятся фильмы
+        recordMoviesTable.setModel(moviesModel);
         currentplaces.clear();
-        TableModel scheduleModel = new addRecordTableModel(currentplaces);
+        TableModel scheduleModel = new addRecordTableModel(currentplaces); //выводится расписание
         addPlaceTable.setModel(scheduleModel);
     }
 
-    private void recordDoctorsTableActionPerformed(){
-        Movie movie = currentmovies.get(recordDoctorsTable.getSelectedRow());
+    //получение записей на фильм
+    private void recordMoviesTableActionPerformed(){
+        Movie movie = currentmovies.get(recordMoviesTable.getSelectedRow());
         try{
             output.writeObject("getRecordsPlaces");
             output.writeObject(movie);
@@ -456,9 +462,10 @@ public class UserFrame  extends JFrame{
         }
     }
 
+    //обработка кнопки нажатия записать на фильм
     private void addRecordButtonActionPerformed(){
         Client client = clients.get(recordClientsTable.getSelectedRow());
-        Movie movie = currentmovies.get(recordDoctorsTable.getSelectedRow());
+        Movie movie = currentmovies.get(recordMoviesTable.getSelectedRow());
         Places places = currentplaces.get(addPlaceTable.getSelectedRow());
         Ticket ticket = new Ticket();
         try{
@@ -482,6 +489,7 @@ public class UserFrame  extends JFrame{
         }
     }
 
+    //удалить клиента
     private void deleteClientActionPerformed(){
         try{
             if(deleteClientCheckBox.isSelected()){
@@ -505,6 +513,7 @@ public class UserFrame  extends JFrame{
         deleteClientCheckBox.setSelected(false);
     }
 
+    //печать билета
     private void printCheckButtonActionPerformed(){
         try{
             try{
@@ -522,7 +531,7 @@ public class UserFrame  extends JFrame{
             for(int i = 0; i<message.length;i++){
                 if(message[i] == null) message[i] = "";
             }
-            String filePath = "С:\\\\Work\\" + message[2] + ".txt";
+            String filePath = "С:\\Work\\" + message[2] + ".txt";
             File file= new File(filePath);
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write("------Билет на сеанс------\r\n");
@@ -542,10 +551,11 @@ public class UserFrame  extends JFrame{
         deleteClientCheckBox.setSelected(false);
     }
 
+    //график Статистика активности клиентовы
     private void statsButtonActionPerformed(){
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
-        dataSet.setValue(clients.size(), "", "Количество клиентов");
-        dataSet.setValue(tickets.size(), "", "Количество записей на будущее время");
+        dataSet.setValue(clients.size(), "", "Кол-во клиентов");
+        dataSet.setValue(tickets.size(), "", "Кол-во записей на будущее время");
         MainFrame.createGraph(dataSet, "Статистика активности клиентов");
     }
 }

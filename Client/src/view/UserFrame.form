@@ -636,7 +636,7 @@
                 <properties/>
                 <border type="none" title="Фильм"/>
                 <children>
-                  <component id="1bab5" class="javax.swing.JTable" binding="recordDoctorsTable">
+                  <component id="1bab5" class="javax.swing.JTable" binding="recordMoviesTable">
                     <constraints/>
                     <properties/>
                   </component>

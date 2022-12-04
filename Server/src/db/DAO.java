@@ -154,7 +154,7 @@ public class DAO extends DbConnector{
     }
 
     //получение расписания
-    public ArrayList<Places> getRecordsSchedule(Movie movie){
+    public ArrayList<Places> getRecordsPlaces(Movie movie){
         try{
             ArrayList<Places> placesList = new ArrayList<>();
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT schedule FROM movie where movie_id='%d';", movie.getId()));
@@ -170,13 +170,9 @@ public class DAO extends DbConnector{
                         if(currentTime != null){
                             while(!currentTime.equals(movieSchedule[day*2+1])){
 
-                                Places schedule[]=new Places[5];
+                                Places schedule=new Places();
 
-                                schedule[0]= new Places();
-                                schedule[1]= new Places();
-                                schedule[2]= new Places();
-                                schedule[3]= new Places();
-                                schedule[4]= new Places();
+
 
 
                                 Statement statement = super.getConnection().createStatement();
@@ -184,18 +180,17 @@ public class DAO extends DbConnector{
                                         "INNER JOIN client on ticket.client_id=client.client_id \n" +
                                         "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
                                         "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
-                                for(int i=0;i<5;i++){
                                     if(rsOldRecord.next()){
 
-                                        schedule[i].setPlace(rsOldRecord.getString("place"));
-                                        schedule[i].setRegistrationTime(rsOldRecord.getString("registration_date"));
-                                        schedule[i].setPhoneNumber(rsOldRecord.getString("phone_number"));
-                                        schedule[i].setComment(rsOldRecord.getString("comment"));
+                                        //schedule.setPlace(rsOldRecord.getString("place"));
+                                        schedule.setRegistrationTime(rsOldRecord.getString("registration_date"));
+                                        schedule.setPhoneNumber(rsOldRecord.getString("phone_number"));
+                                        schedule.setComment(rsOldRecord.getString("comment"));
                                     }
-                                    schedule[i].setDate(rsDateFirst.getString("date"));
-                                    schedule[i].setTime(currentTime);
-                                    placesList.add(schedule[i]);
-                                }
+                                    schedule.setDate(rsDateFirst.getString("date"));
+                                    schedule.setTime(currentTime);
+                                    placesList.add(schedule);
+
 
 
 
@@ -207,7 +202,7 @@ public class DAO extends DbConnector{
                             }
                         }
                     }
-                    interval=interval+2;
+                    interval=interval+1;
                     day++;
                 }
                 day = 0;
@@ -217,29 +212,25 @@ public class DAO extends DbConnector{
                         String currentTime = movieSchedule[day*2];
                         if(currentTime != null){
                             while(!currentTime.equals(movieSchedule[day*2+1])){
-                                Places schedule[] = new Places[5];
-                                schedule[0]=new Places();
-                                schedule[1]=new Places();
-                                schedule[2]=new Places();
-                                schedule[3]=new Places();
-                                schedule[4]=new Places();
+                                Places schedule = new Places();
+
                                 Statement statement = super.getConnection().createStatement();
                                 ResultSet rsOldRecord1 = statement.executeQuery(String.format("SELECT * FROM ticket \n" +
                                         "INNER JOIN client on ticket.client_id=client.client_id \n" +
                                         "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
                                         "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
-                                for(int i_nex=0;i_nex<5;i_nex++){
-                                    if(rsOldRecord1.next()){
-                                        schedule[i_nex].setPlace(rsOldRecord1.getString("place"));
-                                        schedule[i_nex].setRegistrationTime(rsOldRecord1.getString("registration_date"));
-                                        schedule[i_nex].setPhoneNumber(rsOldRecord1.getString("phoneNumber"));
-                                        schedule[i_nex].setComment(rsOldRecord1.getString("comment"));
-                                    }
-                                    schedule[i_nex].setDate(rsDateFirst.getString("date"));
-                                    schedule[i_nex].setTime(currentTime);
 
-                                    placesList.add(schedule[i_nex]);
-                                }
+                                    if(rsOldRecord1.next()){
+                                        //schedule.setPlace(rsOldRecord1.getString("place"));
+                                        schedule.setRegistrationTime(rsOldRecord1.getString("registration_date"));
+                                        schedule.setPhoneNumber(rsOldRecord1.getString("phoneNumber"));
+                                        schedule.setComment(rsOldRecord1.getString("comment"));
+                                    }
+                                    schedule.setDate(rsDateFirst.getString("date"));
+                                    schedule.setTime(currentTime);
+
+                                    placesList.add(schedule);
+
 
                                 String hms[] = currentTime.split(":");
                                 int hour = Integer.parseInt(hms[0]);
@@ -249,7 +240,7 @@ public class DAO extends DbConnector{
                             }
                         }
                     }
-                    interval=interval+2;
+                    interval=interval+1;
                     day++;
                 }
             }
@@ -369,7 +360,7 @@ public class DAO extends DbConnector{
     public String addClient(Client client){
         String addData[] = {
                 String.format("INSERT INTO person (name, surname, lastname, personal_phone) VALUES('%s', '%s', '%s', '%s');", client.getName(), client.getSurname(), client.getLastname(), client.getPhone()),
-                String.format("INSERT INTO client (age, person_id) VALUES('%s', '%s', last_insert_id());", client.getAge())
+                String.format("INSERT INTO client (age, person_id) VALUES('%s', last_insert_id());", client.getAge())
         };
         return addData(addData);
     }

@@ -25,7 +25,7 @@ public class addRecordTableModel implements TableModel{
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -38,8 +38,10 @@ public class addRecordTableModel implements TableModel{
             case 2:
                 return "Дата регистрации записи";
             case 3:
-                return "Номер паспорта клиента";
+                return "Место";
             case 4:
+                return "Номер телефона клиента";
+            case 5:
                 return "Комментарий";
         }
         return "";
@@ -53,6 +55,7 @@ public class addRecordTableModel implements TableModel{
             case 2: return String.class;
             case 3: return String.class;
             case 4: return String.class;
+            case 5: return String.class;
             default: return Object.class;
         }
     }
@@ -73,8 +76,10 @@ public class addRecordTableModel implements TableModel{
             case 2:
                 return sch.getRegistrationTime();
             case 3:
-                return sch.getPhoneNumber();
+                return sch.getPlace();
             case 4:
+                return sch.getPhoneNumber();
+            case 5:
                 return sch.getComment();
         }
         return null;

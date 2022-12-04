@@ -5,12 +5,11 @@ public class Movie implements Serializable {
     private String name;
     private String genre;
     private String country;
-    private int year;
-    private int duration;
-    private int ageLimit;
+    private String year;
+    private String duration;
+    private String ageLimit;
     private String producer;
     private String[] schedule=new String[14];
-    private String[] places=new String[15];
 
     public Movie(){
         super();
@@ -18,19 +17,16 @@ public class Movie implements Serializable {
         this.name="";
         this.genre="";
         this.country="";
-        this.year=-1;
-        this.duration=-1;
-        this.ageLimit=-1;
+        this.year="";
+        this.duration="";
+        this.ageLimit="";
         this.producer="";
-        for(int i=0; i<15;i++){
-            this.places[i]="";
-        }
         for(int i=0; i<14;i++){
             this.schedule[i]="";
         }
     }
 
-    public Movie(String name, String genre, String country, int year, int duration, int ageLimit, String producer,String[] schedule, String[] places){
+    public Movie(String name, String genre, String country, String year, String duration, String ageLimit, String producer,String[] schedule){
         setName(name);
         setGenre(genre);
         setCountry(country);
@@ -39,7 +35,6 @@ public class Movie implements Serializable {
         setAgeLimit(ageLimit);
         setProducer(producer);
         setSchedule(schedule);
-        setPlaces(places);
     }
     public int getId(){
         return id;
@@ -73,27 +68,27 @@ public class Movie implements Serializable {
         this.country = country;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
-    public int getAgeLimit() {
+    public String getAgeLimit() {
         return ageLimit;
     }
 
-    public void setAgeLimit(int ageLimit) {
+    public void setAgeLimit(String ageLimit) {
         this.ageLimit = ageLimit;
     }
 
@@ -113,11 +108,5 @@ public class Movie implements Serializable {
         this.schedule = schedule;
     }
 
-    public String[] getPlaces() {
-        return places;
-    }
 
-    public void setPlaces(String[] places) {
-        this.places = places;
-    }
 }

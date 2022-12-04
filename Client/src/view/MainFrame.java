@@ -35,7 +35,7 @@ public class MainFrame extends JFrame{
     //установление соединения
     public static void connect(){
         try{
-            clientSocket = new Socket("127.0.0.1", 2626);
+            clientSocket = new Socket("127.0.0.1", 2625);
             output = new ObjectOutputStream(clientSocket.getOutputStream());
             input = new ObjectInputStream(clientSocket.getInputStream());
         }
@@ -104,7 +104,7 @@ public class MainFrame extends JFrame{
                     }
                     //неверная длина пароля
                     else if(user.getPassword().length() <= 4 || user.getPassword().length() >= 15) {
-                        JOptionPane.showMessageDialog(null, "Пароль должен быть больше 4 и меньше 15 символов!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Пароль должен быть больше 4 и меньше 15 символов!", "Ошибка входа!", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     //если
@@ -113,16 +113,18 @@ public class MainFrame extends JFrame{
                         output.writeObject(user);
                         user = (User) input.readObject();
                         if(user.getRole().equals("wrong")){
-                            JOptionPane.showMessageDialog(null, "Неправильно введён логин/пароль!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Неправильно введён логин/пароль!", "Ошибка входа!", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                         else if(user.getRole().equals("admin")) {
+                            JOptionPane.showMessageDialog(null, "Вход админа", "Вход!", JOptionPane.ERROR_MESSAGE);
                             new AdminFrame(user.getId()).setVisible(true);
-                            dispose();
+                            //dispose();
                         }
                         else if(user.getRole().equals("user")){
+                            JOptionPane.showMessageDialog(null, "Вход пользователя", "Вход!", JOptionPane.ERROR_MESSAGE);
                             new UserFrame(user.getId()).setVisible(true);
-                            dispose();
+                           // dispose();
                         }
 
                     }

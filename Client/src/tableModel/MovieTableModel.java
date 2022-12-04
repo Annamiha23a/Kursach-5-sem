@@ -25,7 +25,7 @@ public class MovieTableModel implements TableModel{
 
     @Override
     public int getColumnCount() {
-        return 10;
+        return 9;
     }
 
     @Override
@@ -49,8 +49,6 @@ public class MovieTableModel implements TableModel{
                 return "Режиссеры";
             case 8:
                 return "Расписание";
-            case 9:
-                return "Места";
         }
         return "";
     }
@@ -67,7 +65,6 @@ public class MovieTableModel implements TableModel{
             case 6: return String.class;
             case 7: return String.class;
             case 8: return String.class;
-            case 9: return String.class;
             default: return Object.class;
         }
     }
@@ -99,8 +96,6 @@ public class MovieTableModel implements TableModel{
                 return movie.getProducer();
             case 8:
                 return movie.getSchedule();
-            case 9:
-                return movie.getPlaces();
         }
         return null;
     }

@@ -105,22 +105,19 @@ public class DAO extends DbConnector{
             ArrayList<Movie> movieList = new ArrayList<>();
             while(rs.next()){
                 String schedule[];
-                String places[];
                 schedule = rs.getString("schedule").split("-", 14);
-                places = rs.getString("places").split("-", 14);
-                for(int i = 0; i < places.length; i++){
-                    if(places[i] == null) places[i] = "";
+                for(int i = 0; i < schedule.length; i++){
+                    if(schedule[i] == null) schedule[i] = "";
                 }
                 Movie movie = new Movie(
                         rs.getString("name"),
                         rs.getString("genre"),
                         rs.getString("country"),
-                        Integer.parseInt(rs.getString("year")),
-                        Integer.parseInt(rs.getString("duration")),
-                        Integer.parseInt(rs.getString("ageLimit")),
+                        rs.getString("year"),
+                        rs.getString("duration"),
+                        rs.getString("ageLimit"),
                         rs.getString("producer"),
-                        schedule,
-                        places
+                        schedule
                 );
                 movieList.add(movie);
             }
@@ -144,7 +141,7 @@ public class DAO extends DbConnector{
                         rs.getString("lastname"),
                         rs.getString("personal_phone"),
                         Integer.parseInt(rs.getString("client_id")),
-                        Integer.parseInt(rs.getString("age"))
+                        rs.getString("age")
                 );
                 clintList.add(client);
             }
@@ -185,7 +182,7 @@ public class DAO extends DbConnector{
                                 Statement statement = super.getConnection().createStatement();
                                 ResultSet rsOldRecord = statement.executeQuery(String.format("SELECT * FROM ticket \n" +
                                         "INNER JOIN client on ticket.client_id=client.client_id \n" +
-                                        "INNER JOIN doctor on ticket.movie_id=movie.movie_id\n" +
+                                        "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
                                         "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
                                 for(int i=0;i<5;i++){
                                     if(rsOldRecord.next()){
@@ -210,7 +207,7 @@ public class DAO extends DbConnector{
                             }
                         }
                     }
-                    interval++;
+                    interval=interval+2;
                     day++;
                 }
                 day = 0;
@@ -252,7 +249,7 @@ public class DAO extends DbConnector{
                             }
                         }
                     }
-                    interval++;
+                    interval=interval+2;
                     day++;
                 }
             }
@@ -288,7 +285,7 @@ public class DAO extends DbConnector{
         return null;
     }
 
-    public ArrayList<Ticket> getAllVisitsDoctor(Movie movie){
+    public ArrayList<Ticket> getAllTicketMovie(Movie movie){
         try {
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT * FROM ticket WHERE date>=curdate() AND movie_id='%d';", movie.getId()));
             ArrayList<Ticket> ticketsList = new ArrayList<>();
@@ -364,7 +361,7 @@ public class DAO extends DbConnector{
     //добавление фильма, отредачить потом поля
     public String addMovie(Movie movie){
         String addData[] = {
-                String.format("INSERT INTO movie (name, genre, country, year, duration, ageLimit, producer, places) VALUES('%s', '%s', '%s', '%s','%s', '%s', '%s', '%s';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(), movie.getDuration(), movie.getAgeLimit(), movie.getProducer(), movie.getPlaces())
+                String.format("INSERT INTO movie (name, genre, country, year, duration, ageLimit, producer, schedule) VALUES('%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(), movie.getDuration(), movie.getAgeLimit(), movie.getProducer(), "-------------")
         };
         return addData(addData);
     }
@@ -379,7 +376,7 @@ public class DAO extends DbConnector{
 
     public String addTicket(Ticket ticket){
         String addData[] = {
-                String.format("INSERT INTO ticket (registration_date, date, time, place, comment, doctor_id, client_id) VALUES(CURDATE(), '%s', '%s', '%s','%s', '%d', '%d');", ticket.getDate(), ticket.getTime(), ticket.getPlace(), ticket.getComment(), ticket.getMovie_id(), ticket.getClient_id())
+                String.format("INSERT INTO ticket (registration_date, date, time, place, comment, movie_id, client_id) VALUES(CURDATE(), '%s', '%s', '%s','%s', '%d', '%d');", ticket.getDate(), ticket.getTime(), ticket.getPlace(), ticket.getComment(), ticket.getMovie_id(), ticket.getClient_id())
         };
         return addData(addData);
     }
@@ -434,9 +431,9 @@ public class DAO extends DbConnector{
             schedule += "-";
         }
         String statement = String.format("UPDATE movie  \n" +
-                        "SET name='%s',genre='%s',country='%s',year='%s',duration='%s',ageLimit='%s',producer='%s',places='%s',schedule='%s'\n" +
+                        "SET name='%s',genre='%s',country='%s',year='%s',duration='%s',ageLimit='%s',producer='%s',schedule='%s'\n" +
                         "WHERE user.user_id='%d';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(),
-                movie.getDuration(), movie.getAgeLimit(), movie.getProducer(), movie.getPlaces(),  schedule);
+                movie.getDuration(), movie.getAgeLimit(), movie.getProducer(),   movie.getSchedule());
         return updateData(statement);
     }
     //обновление моих пользовательских данных

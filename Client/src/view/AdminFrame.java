@@ -255,7 +255,7 @@ public class AdminFrame extends JFrame{
             }
             output.writeObject("getAllUsers");
             this.users = (ArrayList<User>) input.readObject();
-            output.writeObject("getAllDoctors");
+            output.writeObject("getAllMovies");
             this.movies = (ArrayList<Movie>) input.readObject();
         }
         catch (Exception ex){

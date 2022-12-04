@@ -1793,6 +1793,10 @@
                                 <item value="13:00:00"/>
                                 <item value="14:00:00"/>
                                 <item value="15:00:00"/>
+                                <item value="16:00:00"/>
+                                <item value="17:00:00"/>
+                                <item value="18:00:00"/>
+                                <item value="19:00:00"/>
                               </model>
                             </properties>
                           </component>
@@ -1858,6 +1862,10 @@
                                 <item value="13:00:00"/>
                                 <item value="14:00:00"/>
                                 <item value="15:00:00"/>
+                                <item value="16:00:00"/>
+                                <item value="17:00:00"/>
+                                <item value="18:00:00"/>
+                                <item value="19:00:00"/>
                               </model>
                             </properties>
                           </component>
@@ -1923,6 +1931,10 @@
                                 <item value="13:00:00"/>
                                 <item value="14:00:00"/>
                                 <item value="15:00:00"/>
+                                <item value="16:00:00"/>
+                                <item value="17:00:00"/>
+                                <item value="18:00:00"/>
+                                <item value="19:00:00"/>
                               </model>
                             </properties>
                           </component>
@@ -1988,6 +2000,10 @@
                                 <item value="13:00:00"/>
                                 <item value="14:00:00"/>
                                 <item value="15:00:00"/>
+                                <item value="16:00:00"/>
+                                <item value="17:00:00"/>
+                                <item value="18:00:00"/>
+                                <item value="19:00:00"/>
                               </model>
                             </properties>
                           </component>
@@ -2053,6 +2069,10 @@
                                 <item value="13:00:00"/>
                                 <item value="14:00:00"/>
                                 <item value="15:00:00"/>
+                                <item value="16:00:00"/>
+                                <item value="17:00:00"/>
+                                <item value="18:00:00"/>
+                                <item value="19:00:00"/>
                               </model>
                             </properties>
                           </component>
@@ -2118,6 +2138,10 @@
                                 <item value="13:00:00"/>
                                 <item value="14:00:00"/>
                                 <item value="15:00:00"/>
+                                <item value="16:00:00"/>
+                                <item value="17:00:00"/>
+                                <item value="18:00:00"/>
+                                <item value="19:00:00"/>
                               </model>
                             </properties>
                           </component>
@@ -2183,6 +2207,10 @@
                                 <item value="13:00:00"/>
                                 <item value="14:00:00"/>
                                 <item value="15:00:00"/>
+                                <item value="16:00:00"/>
+                                <item value="17:00:00"/>
+                                <item value="18:00:00"/>
+                                <item value="19:00:00"/>
                               </model>
                             </properties>
                           </component>

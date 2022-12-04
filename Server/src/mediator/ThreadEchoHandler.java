@@ -3,7 +3,6 @@ package mediator;
 import db.DAO;
 import model.*;
 
-import javax.print.Doc;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -31,6 +30,7 @@ public class ThreadEchoHandler implements Runnable{
             String command = "";
             while(!command.equals("exit")){
                 command = (String) input.readObject();
+
                 switch (command){
 
                     case "authorization":
@@ -58,7 +58,7 @@ public class ThreadEchoHandler implements Runnable{
                         break;
                     case "getAllTicketMovies":
                         Movie workmovie = (Movie) input.readObject();
-                        output.writeObject(dao.getAllVisitsDoctor(workmovie));
+                        output.writeObject(dao.getAllTicketMovie(workmovie));
                         break;
                     case "insertAdmin":
                         Admin newAdmin = (Admin) input.readObject();
@@ -76,7 +76,7 @@ public class ThreadEchoHandler implements Runnable{
                         Client newClient = (Client) input.readObject();
                         output.writeObject(dao.addClient(newClient));
                         break;
-                    case "insertVisit":
+                    case "insertTicket":
                         Ticket addTicket = (Ticket) input.readObject();
                         output.writeObject(dao.addTicket(addTicket));
                         break;

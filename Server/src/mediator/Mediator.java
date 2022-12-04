@@ -16,7 +16,7 @@ public class Mediator {
             Socket clientSocket = null;
             try{
                 System.out.println("-------3-------");
-                serverSocket = new ServerSocket(2626);
+                serverSocket = new ServerSocket(2625);
                 System.out.println("-------4-------");
                 System.out.println("-------Сервер запущен-------");
                 while(true){

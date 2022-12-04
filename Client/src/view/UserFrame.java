@@ -83,7 +83,7 @@ public class UserFrame  extends JFrame{
         readData();
         TableModel clientsModel = new ClientTableModel(clients);
         workClientsTable.setModel(clientsModel);
-        workClientsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+       workClientsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         recordClientsTable.setModel(clientsModel);
         recordClientsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         TableModel doctorsModel = new MovieTableModel(new ArrayList<>());
@@ -159,9 +159,9 @@ public class UserFrame  extends JFrame{
             this.clients = (ArrayList<Client>)input.readObject();
             output.writeObject("getAllAdmins");
             this.admins = (ArrayList<Admin>) input.readObject();
-            output.writeObject("getAllDoctors");
+            output.writeObject("getAllMovies");
             this.movies = (ArrayList<Movie>) input.readObject();
-            output.writeObject("getAllVisits");
+            output.writeObject("getAllTickets");
             this.tickets = (ArrayList<Ticket>) input.readObject();
         }
         catch (Exception ex){

@@ -179,8 +179,8 @@ public class UserFrame  extends JFrame{
         TableModel scheduleModel = new addRecordTableModel(currentplaces);
         addPlaceTable.setModel(scheduleModel);
         currentmovies.clear();
-        TableModel doctorsModel = new MovieTableModel(currentmovies);
-        recordMoviesTable.setModel(doctorsModel);
+        TableModel movieModel = new MovieTableModel(currentmovies);
+        recordMoviesTable.setModel(movieModel);
         TableModel visitsModel = new TicketTableModel(tickets, clients);
         recordsTable.setModel(visitsModel);
         recordsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -192,18 +192,18 @@ public class UserFrame  extends JFrame{
             JOptionPane.showMessageDialog(null, "Вы не ввели логин!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (login.length() <= 4 || login.length() >= 15) {
-            JOptionPane.showMessageDialog(null, "Логин должен быть больше 4 и меньше 15 символов!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Логин должен быть больше 4 и меньше 15 символов!", "Ошибка редактирования логина", JOptionPane.ERROR_MESSAGE);
             return false;
         } else {
             for (int i = 0; i < admins.size(); i++) {
                 if (login.equals(admins.get(i).getLogin())) {
-                    JOptionPane.showMessageDialog(null, "Данный логин уже есть в системе!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Данный логин уже есть в системе!", "Ошибка редактирования логина", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
             }
             for (int i = 0; i < users.size(); i++) {
                 if (login.equals(users.get(i).getLogin())) {
-                    JOptionPane.showMessageDialog(null, "Данный логин уже есть в системе!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Данный логин уже есть в системе!", "Ошибка редактирования логина", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
             }
@@ -214,15 +214,15 @@ public class UserFrame  extends JFrame{
     //редактирование пароля
     private Boolean checkPassword(String password, String provePassword) {
         if(password.equals("") || provePassword.equals("")) {
-            JOptionPane.showMessageDialog(null, "Вы не ввели пароль!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Вы не ввели пароль!", "Ошибка редактирования праоля", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         else if(password.length() <= 4 || password.length() >= 15) {
-            JOptionPane.showMessageDialog(null, "Пароль должен быть больше 4 и меньше 15 символов!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Пароль должен быть больше 4 и меньше 15 символов!", "Ошибка редактирования праоля", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         else if(!password.equals(provePassword)){
-            JOptionPane.showMessageDialog(null, "Пароль и его подтверждение не совпадают!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Пароль и его подтверждение не совпадают!", "Ошибка редактирования праоля", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         else return true;

@@ -1432,7 +1432,7 @@
                               <text value="Возрастное ограничение"/>
                             </properties>
                           </component>
-                          <component id="dbe5d" class="javax.swing.JTextField" binding="newDoctorLoginField">
+                          <component id="dbe5d" class="javax.swing.JTextField" binding="newMovieNameField">
                             <constraints>
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
@@ -1440,15 +1440,7 @@
                             </constraints>
                             <properties/>
                           </component>
-                          <component id="e7220" class="javax.swing.JPasswordField" binding="newDoctorPasswordField1">
-                            <constraints>
-                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties/>
-                          </component>
-                          <component id="bfd18" class="javax.swing.JTextField" binding="newDoctorPostField">
+                          <component id="bfd18" class="javax.swing.JTextField" binding="newMovieCountryField">
                             <constraints>
                               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
@@ -1456,9 +1448,17 @@
                             </constraints>
                             <properties/>
                           </component>
-                          <component id="3acc3" class="javax.swing.JTextField" binding="newDoctorDistrictField">
+                          <component id="3acc3" class="javax.swing.JTextField" binding="newMovieAgeLimitField">
                             <constraints>
                               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <component id="213ad" class="javax.swing.JTextField" binding="newMovieGenreField">
+                            <constraints>
+                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
                               </grid>
                             </constraints>
@@ -1503,7 +1503,7 @@
                               <text value="Режиссёр"/>
                             </properties>
                           </component>
-                          <component id="554e6" class="javax.swing.JTextField" binding="newDoctorSurnameField">
+                          <component id="554e6" class="javax.swing.JTextField" binding="newMovieYearField">
                             <constraints>
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
@@ -1511,7 +1511,7 @@
                             </constraints>
                             <properties/>
                           </component>
-                          <component id="259c7" class="javax.swing.JTextField" binding="newDoctorNameField">
+                          <component id="259c7" class="javax.swing.JTextField" binding="newMovieDurationField">
                             <constraints>
                               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
@@ -1519,7 +1519,7 @@
                             </constraints>
                             <properties/>
                           </component>
-                          <component id="4bc9a" class="javax.swing.JTextField" binding="newDoctorLastnameField">
+                          <component id="4bc9a" class="javax.swing.JTextField" binding="newMovieProducerField">
                             <constraints>
                               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
@@ -1529,7 +1529,7 @@
                           </component>
                         </children>
                       </grid>
-                      <component id="65fec" class="javax.swing.JButton" binding="addNewDoctorButton">
+                      <component id="65fec" class="javax.swing.JButton" binding="addNewMovieButton">
                         <constraints>
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -1542,7 +1542,7 @@
                           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                       </hspacer>
-                      <component id="19221" class="javax.swing.JButton" binding="clearNewDoctorFormButton">
+                      <component id="19221" class="javax.swing.JButton" binding="clearNewMovieFormButton">
                         <constraints>
                           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -1702,7 +1702,7 @@
                           </component>
                         </children>
                       </grid>
-                      <component id="2b1ee" class="javax.swing.JButton" binding="editDoctorButton">
+                      <component id="2b1ee" class="javax.swing.JButton" binding="editMovieButton">
                         <constraints>
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -2208,7 +2208,7 @@
                           </component>
                         </children>
                       </grid>
-                      <component id="28eab" class="javax.swing.JButton" binding="editDoctorScheduleButton">
+                      <component id="28eab" class="javax.swing.JButton" binding="editMovieScheduleButton">
                         <constraints>
                           <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -2231,7 +2231,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="e70ca" class="javax.swing.JCheckBox" binding="deleteDoctorCheckBox">
+                      <component id="e70ca" class="javax.swing.JCheckBox" binding="deleteMovieCheckBox">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -2249,7 +2249,7 @@
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                         </constraints>
                       </vspacer>
-                      <component id="f3181" class="javax.swing.JButton" binding="deleteDoctorButton">
+                      <component id="f3181" class="javax.swing.JButton" binding="deleteMovieButton">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>

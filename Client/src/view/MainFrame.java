@@ -40,7 +40,7 @@ public class MainFrame extends JFrame{
             input = new ObjectInputStream(clientSocket.getInputStream());
         }
         catch (Exception ex){
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка соединения", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -119,12 +119,12 @@ public class MainFrame extends JFrame{
                         else if(user.getRole().equals("admin")) {
                             JOptionPane.showMessageDialog(null, "Вход админа", "Вход!", JOptionPane.ERROR_MESSAGE);
                             new AdminFrame(user.getId()).setVisible(true);
-                            //dispose();
+                            dispose();
                         }
                         else if(user.getRole().equals("user")){
                             JOptionPane.showMessageDialog(null, "Вход пользователя", "Вход!", JOptionPane.ERROR_MESSAGE);
                             new UserFrame(user.getId()).setVisible(true);
-                           // dispose();
+                           dispose();
                         }
 
                     }

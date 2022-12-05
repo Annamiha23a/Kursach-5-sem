@@ -13,7 +13,6 @@ public class Movie implements Serializable {
 
 
     public Movie(){
-        super();
         this.id=-1;
         this.name="";
         this.genre="";

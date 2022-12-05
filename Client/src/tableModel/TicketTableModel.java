@@ -90,8 +90,10 @@ public class TicketTableModel implements TableModel{
             case 2:
                 return ticket.getRegistrationDate();
             case 3:
-                return getSurname(ticket);
+                return ticket.getPlace();
             case 4:
+                return getSurname(ticket);
+            case 5:
                 return ticket.getComment();
         }
         return null;

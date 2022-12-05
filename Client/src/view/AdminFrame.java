@@ -87,20 +87,17 @@ public class AdminFrame extends JFrame{
     private JTable tableMovies;
     private JCheckBox deleteUserCheckBox;
     private JButton deleteUserButton;
-    private JButton addNewDoctorButton;
-    private JButton clearNewDoctorFormButton;
-    private JTextField newDoctorLoginField;
-    private JPasswordField newDoctorPasswordField1;
-    private JPasswordField newDoctorPasswordField2;
-    private JTextField newDoctorPostField;
-    private JTextField newDoctorRoomField;
-    private JTextField newDoctorDistrictField;
-    private JTextField newDoctorSurnameField;
-    private JTextField newDoctorNameField;
-    private JTextField newDoctorLastnameField;
-    private JTextField newDoctorPhoneField;
-    private JTextField newDoctorWorkPhoneField;
-    private JButton editDoctorButton;
+    private JButton addNewMovieButton;
+    private JButton clearNewMovieFormButton;
+    private JTextField newMovieNameField;
+    private JTextField newMovieGenreField;
+    private JTextField newMovieCountryField;
+    private JTextField newMovieAgeLimitField;
+    private JTextField newMovieYearField;
+    private JTextField newMovieDurationField;
+    private JTextField newMovieProducerField;
+
+    private JButton editMovieButton;
     private JTextField editMovieNameField;
     private JTextField editMovieGenreField;
     private JTextField editMovieCountryField;
@@ -108,14 +105,9 @@ public class AdminFrame extends JFrame{
     private JTextField editMovieYearField;
     private JTextField editMovieDurationField;
     private JTextField editMovieProducerField;
-    private JTextField editDoctorPhoneField;
-    private JTextField editDoctorWorkPhoneField;
-    private JPasswordField editDoctorPasswordField1;
-    private JPasswordField editDoctorPasswordField2;
-    private JButton editDoctorPasswordButton;
-    private JCheckBox deleteDoctorCheckBox;
-    private JButton deleteDoctorButton;
-    private JButton editDoctorScheduleButton;
+    private JCheckBox deleteMovieCheckBox;
+    private JButton deleteMovieButton;
+    private JButton editMovieScheduleButton;
     private JComboBox moIn;
     private JComboBox moOut;
     private JComboBox tuIn;
@@ -143,8 +135,9 @@ public class AdminFrame extends JFrame{
 
 
     @SuppressWarnings("unchecked")
+    //построитель окна
     private void initComponents() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //установление режима закрытия по умолчанию
         setTitle("Администратор");
         setContentPane(mainPanel);
         setResizable(false);
@@ -203,18 +196,18 @@ public class AdminFrame extends JFrame{
         editUserPasswordButton.addActionListener(e -> editUserPasswordActionPerformed());
         editUserButton.addActionListener(e -> editUserActionPerformed());
         deleteUserButton.addActionListener(e -> deleteUserActionPerformed());
-        clearNewDoctorFormButton.addActionListener(e -> clearNewDoctorFormActionPerformed());
-        addNewDoctorButton.addActionListener(e -> addNewDoctorButtonActionPerformed());
+        clearNewMovieFormButton.addActionListener(e -> clearNewMovieFormActionPerformed());
+        addNewMovieButton.addActionListener(e -> addNewMovieButtonActionPerformed());
         tableMovies.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                tableDoctorsMouseClickedActionPerformed();
+                tableMoviesMouseClickedActionPerformed();
             }
         });
-        editDoctorButton.addActionListener(e -> editDoctorActionPerformed());
+        editMovieButton.addActionListener(e -> editMovieActionPerformed());
 
-        editDoctorScheduleButton.addActionListener(e -> editDoctorScheduleActionPerformed());
-        deleteDoctorButton.addActionListener(e -> deleteDoctorActionPerformed());
+        editMovieScheduleButton.addActionListener(e -> editMovieScheduleActionPerformed());
+        deleteMovieButton.addActionListener(e -> deleteMovieActionPerformed());
         newMovie.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -234,6 +227,7 @@ public class AdminFrame extends JFrame{
     }
 
 
+    //выводит мои данные и данные админов, работников и фильмы
     public void readData(){
         try{
             output.writeObject("getAllAdmins");
@@ -263,6 +257,7 @@ public class AdminFrame extends JFrame{
         }
     }
 
+    //обновление данных
     public void refreshData(){
         admins.clear();
         users.clear();
@@ -276,6 +271,7 @@ public class AdminFrame extends JFrame{
         tableMovies.setModel(moviesModel);
     }
 
+    //очистить форму добавления
     public void clearEditAndPasswordForm(){
         editAdminLoginField.setText("");
         editAdminRightsComboBox.setSelectedIndex(0);
@@ -304,10 +300,7 @@ public class AdminFrame extends JFrame{
         editMovieYearField.setText("");
         editMovieDurationField.setText("");
         editMovieProducerField.setText("");
-        editDoctorPhoneField.setText("");
-        editDoctorWorkPhoneField.setText("");
-        editDoctorPasswordField1.setText("");
-        editDoctorPasswordField2.setText("");
+
 
         moIn.setSelectedIndex(0);
         moOut.setSelectedIndex(0);
@@ -327,6 +320,7 @@ public class AdminFrame extends JFrame{
         deleteAdminCheckBox.setSelected(false);
     }
 
+    //проверка логина
     private Boolean checkLogin(String login) {
         if (login.equals("")) {
             JOptionPane.showMessageDialog(null, "Вы не ввели логин!", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -352,6 +346,7 @@ public class AdminFrame extends JFrame{
         }
     }
 
+    //проверка пароля
     private Boolean checkPassword(String password, String provePassword) {
         if(password.equals("") || provePassword.equals("")) {
             JOptionPane.showMessageDialog(null, "Вы не ввели пароль!", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -371,11 +366,13 @@ public class AdminFrame extends JFrame{
 
     //-------------------------------ФУНКЦИИ-СЛУШАТЕЛИ-------------------------------
 
+    //действие по закрытию окна
     private void closeFrameActionPerformed(){
         new MainFrame().setVisible(true);
         dispose();
     }
 
+    //редактирование моих персональных данных
     private void editMyPersonalDataActionPerformed(){
         if(mySurnameField.isEditable()) {
             try {
@@ -419,6 +416,7 @@ public class AdminFrame extends JFrame{
         }
     }
 
+    //редактирование моих данных пользователя
     private void editMyAuthorizationDataActionPerformed(){
         if(myLoginField.isEditable()){
             if(!checkLogin(myLoginField.getText())) return;
@@ -465,6 +463,7 @@ public class AdminFrame extends JFrame{
     }
 
 
+    //редактирование таблицы админов
     private void tableAdminsMouseClickedActionPerformed(){
         Admin admin = admins.get(tableAdmins.getSelectedRow());
         editAdminLoginField.setText(admin.getLogin());
@@ -481,6 +480,7 @@ public class AdminFrame extends JFrame{
         editAdminPasswordField2.setText(admin.getPassword());
     }
 
+    //редактирование таблицы user
     private void tableUsersMouseClickedActionPerformed(){
         User user = users.get(tableUsers.getSelectedRow());
         editUserLoginField.setText(user.getLogin());
@@ -493,7 +493,8 @@ public class AdminFrame extends JFrame{
         editUserPasswordField2.setText(user.getPassword());
     }
 
-    private void tableDoctorsMouseClickedActionPerformed(){
+    //редактирование таблицы фильмов
+    private void tableMoviesMouseClickedActionPerformed(){
         Movie movie = movies.get(tableMovies.getSelectedRow());
         editMovieNameField.setText(movie.getName());
         editMovieGenreField.setText(movie.getGenre());
@@ -534,7 +535,7 @@ public class AdminFrame extends JFrame{
         else suOut.setSelectedItem(movie.getSchedule()[13]);
     }
 
-
+    //создать нового админа
     private void addNewAdminActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -565,6 +566,7 @@ public class AdminFrame extends JFrame{
         }
     }
 
+    //создать нового user
     private void addNewUserActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -593,34 +595,35 @@ public class AdminFrame extends JFrame{
         }
     }
 
-    private void addNewDoctorButtonActionPerformed(){
+    //добавление нового фильма
+    private void addNewMovieButtonActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!checkLogin(newDoctorLoginField.getText())) return;
-        if(!checkPassword(newDoctorPasswordField1.getText(), newDoctorPasswordField2.getText())) return;
-        if(newDoctorPostField.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Вы не ввели должность врача!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+        if(!checkLogin(newMovieNameField.getText())) return;
+        if(newMovieGenreField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Вы не ввели жанр!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(newDoctorRoomField.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Вы не ввели приемный кабинет!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+        if(newMovieCountryField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Вы не ввели страну!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(newDoctorDistrictField.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Вы не ввели участок!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+        if(newMovieAgeLimitField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Вы не ввели возрастное ограничение!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try{
             Movie movie = new Movie();
-            movie.setName(newDoctorLoginField.getText());
-            movie.setGenre(newDoctorPasswordField1.getText());
-            movie.setCountry(newDoctorPostField.getText());
-            movie.setAgeLimit(newDoctorRoomField.getText());
-            movie.setDuration(newDoctorDistrictField.getText());
-            movie.setYear(newDoctorSurnameField.getText());
-            movie.setProducer(newDoctorNameField.getText());
+            movie.setName(newMovieNameField.getText());
+            movie.setGenre(newMovieGenreField.getText());
+            movie.setCountry(newMovieCountryField.getText());
+            movie.setDuration(newMovieAgeLimitField.getText());
+            movie.setYear(newMovieYearField.getText());
+            movie.setProducer(newMovieDurationField.getText());
+            movie.setProducer(newMovieProducerField.getText());
+
 
 
             output.writeObject("insertMovie");
@@ -635,6 +638,7 @@ public class AdminFrame extends JFrame{
     }
 
 
+    //очистка формы нового админа
     private void clearNewAdminFormActionPerformed(){
         newAdminLoginField.setText("");
         newAdminPasswordField1.setText("");
@@ -648,6 +652,7 @@ public class AdminFrame extends JFrame{
         newAdminWorkPhoneField.setText("");
     }
 
+    //очистка формы нового user
     private void clearNewUserFormActionPerformed(){
         newUserLoginField.setText("");
         newUserPasswordField1.setText("");
@@ -659,21 +664,19 @@ public class AdminFrame extends JFrame{
         newUserWorkPhoneField.setText("");
     }
 
-    private void clearNewDoctorFormActionPerformed(){
-        newDoctorLoginField.setText("");
-        newDoctorPasswordField1.setText("");
-        newDoctorPasswordField2.setText("");
-        newDoctorPostField.setText("");
-        newDoctorRoomField.setText("");
-        newDoctorDistrictField.setText("");
-        newDoctorSurnameField.setText("");
-        newDoctorNameField.setText("");
-        newDoctorLastnameField.setText("");
-        newDoctorPhoneField.setText("");
-        newDoctorWorkPhoneField.setText("");
+    //очистка формы нового фильма
+    private void clearNewMovieFormActionPerformed(){
+        newMovieNameField.setText("");
+        newMovieGenreField.setText("");
+        newMovieCountryField.setText("");
+        newMovieAgeLimitField.setText("");
+        newMovieYearField.setText("");
+        newMovieDurationField.setText("");
+        newMovieProducerField.setText("");
     }
 
 
+    //удаление админа
     private void deleteAdminActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -701,6 +704,7 @@ public class AdminFrame extends JFrame{
         deleteAdminCheckBox.setSelected(false);
     }
 
+    //удалить user
     private void deleteUserActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -731,6 +735,7 @@ public class AdminFrame extends JFrame{
 
 
 
+    //построение статистики блокированных/не блок прав
     private void statsAdminBlockActionPerformed(){
         int notBlock = 0;
         int block = 0;
@@ -745,6 +750,7 @@ public class AdminFrame extends JFrame{
         MainFrame.createGraph(dataSet, "Статистика блокированных/не блокированных администраторов");
     }
 
+    //построение статистики полных и частичных прав
     private void statsAdminRightsActionPerformed(){
         int full = 0;
         int read = 0;
@@ -761,6 +767,7 @@ public class AdminFrame extends JFrame{
 
 
 
+    //редактирование админов
     private void editAdminActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -800,6 +807,7 @@ public class AdminFrame extends JFrame{
         }
     }
 
+    //редактирование user
     private void editUserActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -832,8 +840,8 @@ public class AdminFrame extends JFrame{
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }
-    //редпктирование
-    private void editDoctorActionPerformed(){
+    //редактирование
+    private void editMovieActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
@@ -867,6 +875,7 @@ public class AdminFrame extends JFrame{
 
 
 
+    //редактирование пароля админа
     private void editAdminPasswordActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -900,6 +909,7 @@ public class AdminFrame extends JFrame{
         }
     }
 
+    //редактирование пароля user
     private void editUserPasswordActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -929,7 +939,7 @@ public class AdminFrame extends JFrame{
 
 
 
-    private void editDoctorScheduleActionPerformed(){
+    private void editMovieScheduleActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
@@ -966,7 +976,7 @@ public class AdminFrame extends JFrame{
             if(suIn.getSelectedIndex() != 0) newSchedule[13] = (String)suOut.getSelectedItem();
             else newSchedule[13] = "";
             movie.setSchedule(newSchedule);
-            output.writeObject("updateDoctor");
+            output.writeObject("updateMovie");
             output.writeObject(movie);
             JOptionPane.showMessageDialog(null, input.readObject(), "Результат", JOptionPane.INFORMATION_MESSAGE);
             refreshData();
@@ -976,21 +986,22 @@ public class AdminFrame extends JFrame{
         }
     }
 
-    private void deleteDoctorActionPerformed(){
+    //удаление фильма
+    private void deleteMovieActionPerformed(){
         if(!rights.equals("Полные")) {
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try{
-            if(deleteDoctorCheckBox.isSelected()){
+            if(deleteMovieCheckBox.isSelected()){
                 try{
                     Movie movie = movies.get(tableMovies.getSelectedRow());
-                    output.writeObject("deleteDoctor");
+                    output.writeObject("deleteMovie");
                     output.writeObject(movie);
                     String result = (String) input.readObject();
                     JOptionPane.showMessageDialog(null, result, "Результат", JOptionPane.INFORMATION_MESSAGE);
                 }catch (Exception e){
-                    JOptionPane.showMessageDialog(null, "Вы не выбрали запись для удаления!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Вы не выбрали фильм для удаления!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
                 refreshData();
                 clearEditAndPasswordForm();

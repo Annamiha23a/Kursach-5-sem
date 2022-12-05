@@ -157,7 +157,7 @@ public class DAO extends DbConnector{
     public ArrayList<Places> getRecordsPlaces(Movie movie){
         try{
             ArrayList<Places> placesList = new ArrayList<>();
-            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT schedule FROM movie where movie_id='%d';", movie.getId()));
+            ResultSet rs = super.getStatement().executeQuery(String.format("SELECT schedule, WEEKDAY(curdate()) as daynum FROM movie where movie_id='%d';", movie.getId()));
             if(rs.next()){
                 String movieSchedule[] = rs.getString("schedule").split("-", 14);
                 int curdamynum = Integer.parseInt(rs.getString("daynum"));
@@ -182,7 +182,7 @@ public class DAO extends DbConnector{
                                         "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
                                     if(rsOldRecord.next()){
 
-                                        //schedule.setPlace(rsOldRecord.getString("place"));
+                                        schedule.setPlace(rsOldRecord.getString("place"));
                                         schedule.setRegistrationTime(rsOldRecord.getString("registration_date"));
                                         schedule.setPhoneNumber(rsOldRecord.getString("phone_number"));
                                         schedule.setComment(rsOldRecord.getString("comment"));
@@ -221,7 +221,7 @@ public class DAO extends DbConnector{
                                         "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
 
                                     if(rsOldRecord1.next()){
-                                        //schedule.setPlace(rsOldRecord1.getString("place"));
+                                        schedule.setPlace(rsOldRecord1.getString("place"));
                                         schedule.setRegistrationTime(rsOldRecord1.getString("registration_date"));
                                         schedule.setPhoneNumber(rsOldRecord1.getString("phoneNumber"));
                                         schedule.setComment(rsOldRecord1.getString("comment"));
@@ -352,7 +352,7 @@ public class DAO extends DbConnector{
     //добавление фильма, отредачить потом поля
     public String addMovie(Movie movie){
         String addData[] = {
-                String.format("INSERT INTO movie (name, genre, country, year, duration, ageLimit, producer, schedule) VALUES('%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(), movie.getDuration(), movie.getAgeLimit(), movie.getProducer(), "-------------")
+                String.format("INSERT INTO movie (movie_id, name, genre, country, year, duration, ageLimit, producer, schedule) VALUES( last_insert_id(), '%s', '%s', '%s', '%s','%s', '%s', '%s', '%s');", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(), movie.getDuration(), movie.getAgeLimit(), movie.getProducer(), "-------------")
         };
         return addData(addData);
     }

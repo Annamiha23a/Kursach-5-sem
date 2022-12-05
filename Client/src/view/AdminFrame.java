@@ -601,7 +601,11 @@ public class AdminFrame extends JFrame{
             JOptionPane.showMessageDialog(null, "Отказано в доступе", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!checkLogin(newMovieNameField.getText())) return;
+
+        if(newMovieNameField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Вы не ввели название!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(newMovieGenreField.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Вы не ввели жанр!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
@@ -619,10 +623,11 @@ public class AdminFrame extends JFrame{
             movie.setName(newMovieNameField.getText());
             movie.setGenre(newMovieGenreField.getText());
             movie.setCountry(newMovieCountryField.getText());
-            movie.setDuration(newMovieAgeLimitField.getText());
+            movie.setAgeLimit(newMovieAgeLimitField.getText());
+            movie.setDuration(newMovieDurationField.getText());
             movie.setYear(newMovieYearField.getText());
-            movie.setProducer(newMovieDurationField.getText());
             movie.setProducer(newMovieProducerField.getText());
+
 
 
 

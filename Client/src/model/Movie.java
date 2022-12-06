@@ -13,7 +13,7 @@ public class Movie implements Serializable {
 
 
     public Movie(){
-        this.id=-1;
+        this.id=1;
         this.name="";
         this.genre="";
         this.country="";
@@ -27,7 +27,8 @@ public class Movie implements Serializable {
         }
     }
 
-    public Movie(String name, String genre, String country, String year, String duration, String ageLimit, String producer,String[] schedule){
+    public Movie(int movie_id, String name, String genre, String country, String year, String duration, String ageLimit, String producer,String[] schedule){
+        setId(movie_id);
         setName(name);
         setGenre(genre);
         setCountry(country);

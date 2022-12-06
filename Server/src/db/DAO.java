@@ -110,6 +110,7 @@ public class DAO extends DbConnector{
                     if(schedule[i] == null) schedule[i] = "";
                 }
                 Movie movie = new Movie(
+                        Integer.parseInt(rs.getString("movie_id")),
                         rs.getString("name"),
                         rs.getString("genre"),
                         rs.getString("country"),

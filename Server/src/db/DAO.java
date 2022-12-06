@@ -170,19 +170,22 @@ public class DAO extends DbConnector{
                         String currentTime = movieSchedule[day*2];
                         if(currentTime != null){
                             while(!currentTime.equals(movieSchedule[day*2+1])){
+                                int inplac=1;
+                                for(inplac=1; inplac<6; inplac++) {
+                                    Places schedule = new Places();
 
-                                Places schedule=new Places();
 
+                                    Statement statement = super.getConnection().createStatement();
+                                    ResultSet rsOldRecord = statement.executeQuery(String.format("SELECT * FROM ticket \n" +
+                                            "INNER JOIN client on ticket.client_id=client.client_id \n" +
+                                            "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
+                                            "WHERE movie.movie_id='%d' AND time='%s' AND date='%s'  and place='%s';", movie.getId(), currentTime, rsDateFirst.getString("date"), inplac));
+                                    if (rsOldRecord.next()) {
 
-
-
-                                Statement statement = super.getConnection().createStatement();
-                                ResultSet rsOldRecord = statement.executeQuery(String.format("SELECT * FROM ticket \n" +
-                                        "INNER JOIN client on ticket.client_id=client.client_id \n" +
-                                        "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
-                                        "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
-                                    if(rsOldRecord.next()){
-
+//                                        ResultSet rsOldRecordPl = super.getStatement().executeQuery(String.format("SELECT * FROM ticket \n" +
+//                                                "INNER JOIN client on ticket.client_id=client.client_id \n" +
+//                                                "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
+//                                                "WHERE movie.movie_id='%d' AND time='%s' AND date='%s' and place='%s';", movie.getId(), currentTime, rsDateFirst.getString("date"), inplac));
                                         schedule.setPlace(rsOldRecord.getString("place"));
                                         schedule.setRegistrationTime(rsOldRecord.getString("registration_date"));
                                         schedule.setPhoneNumber(rsOldRecord.getString("phone_number"));
@@ -193,13 +196,13 @@ public class DAO extends DbConnector{
                                     placesList.add(schedule);
 
 
-
-
-                                String hms[] = currentTime.split(":");
-                                int hour = Integer.parseInt(hms[0]);
-                                hour++;
-                                if(String.valueOf(hour).length()==1) currentTime = "0" + String.valueOf(hour) + ":" + hms[1] + ":" + hms[2];
-                                else currentTime = String.valueOf(hour) + ":" + hms[1] + ":" + hms[2];
+                                    String hms[] = currentTime.split(":");
+                                    int hour = Integer.parseInt(hms[0]);
+                                    hour++;
+                                    if (String.valueOf(hour).length() == 1)
+                                        currentTime = "0" + String.valueOf(hour) + ":" + hms[1] + ":" + hms[2];
+                                    else currentTime = String.valueOf(hour) + ":" + hms[1] + ":" + hms[2];
+                                }
                             }
                         }
                     }

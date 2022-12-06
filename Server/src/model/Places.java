@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Places implements Serializable {
     private String date;
     private String time;
-    private String row;
     private String place;
     private String registrationTime;
     private String phoneNumber;
@@ -14,17 +13,15 @@ public class Places implements Serializable {
     public Places(){
         this.date = "";
         this.time = "";
-        this.row="";
         this.place="";
         this.registrationTime="";
         this.phoneNumber="";
         this.comment="";
     }
 
-    public Places(String date, String time, String row, String place, String registrationTime, String phoneNumber, String comment){
+    public Places(String date, String time, String place, String registrationTime, String phoneNumber, String comment){
         setDate(date);
         setTime(time);
-        setRow(row);
         setPlace(place);
         setRegistrationTime(registrationTime);
         setPhoneNumber(phoneNumber);
@@ -47,14 +44,6 @@ public class Places implements Serializable {
         this.time = time;
     }
 
-
-    public String getRow() {
-        return row;
-    }
-
-    public void setRow(String row) {
-        this.row = row;
-    }
 
     public String getPlace() {
         return place;

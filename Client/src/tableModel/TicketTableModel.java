@@ -50,9 +50,9 @@ public class TicketTableModel implements TableModel{
             case 1:
                 return "Время";
             case 2:
-                return "Дата регистрации";
-            case 3:
                 return "Место";
+            case 3:
+                return "Дата регистрации";
             case 4:
                 return "Фамилия";
             case 5:
@@ -88,9 +88,9 @@ public class TicketTableModel implements TableModel{
             case 1:
                 return ticket.getTime();
             case 2:
-                return ticket.getRegistrationDate();
-            case 3:
                 return ticket.getPlace();
+            case 3:
+                return ticket.getRegistrationDate();
             case 4:
                 return getSurname(ticket);
             case 5:

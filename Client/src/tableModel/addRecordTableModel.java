@@ -36,9 +36,9 @@ public class addRecordTableModel implements TableModel{
             case 1:
                 return "Время";
             case 2:
-                return "Дата регистрации записи";
-            case 3:
                 return "Место";
+            case 3:
+                return "Дата регистрации записи";
             case 4:
                 return "Номер телефона клиента";
             case 5:
@@ -74,9 +74,9 @@ public class addRecordTableModel implements TableModel{
             case 1:
                 return sch.getTime();
             case 2:
-                return sch.getRegistrationTime();
-            case 3:
                 return sch.getPlace();
+            case 3:
+                return sch.getRegistrationTime();
             case 4:
                 return sch.getPhoneNumber();
             case 5:

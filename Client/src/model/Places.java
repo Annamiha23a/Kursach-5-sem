@@ -19,7 +19,7 @@ public class Places implements Serializable {
         this.comment="";
     }
 
-    public Places(String date, String time, String row, String place, String registrationTime, String phoneNumber, String comment){
+    public Places(String date, String time, String place, String registrationTime, String phoneNumber, String comment){
         setDate(date);
         setTime(time);
         setPlace(place);

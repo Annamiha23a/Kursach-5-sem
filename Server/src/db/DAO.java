@@ -333,7 +333,7 @@ public class DAO extends DbConnector{
                 result += rs.getString("time") + "#";
                 result += rs.getString("personal_phone") + "#";
                 result += rs.getString("place") + "#";
-                //result += rs.getString("title" ) + "#";
+                result += rs.getString("movie.name" ) + "#";
                 result += rs.getString("surname") + "#";
                 result += rs.getString("name") + "#";
                 result += rs.getString("lastname") + "#";

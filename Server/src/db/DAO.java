@@ -158,42 +158,49 @@ public class DAO extends DbConnector{
     public ArrayList<Places> getRecordsPlaces(Movie movie){
         try{
             ArrayList<Places> placesList = new ArrayList<>();
+            //взять расписание и номер дня
             ResultSet rs = super.getStatement().executeQuery(String.format("SELECT schedule, WEEKDAY(curdate()) as daynum FROM movie where movie_id='%d';", movie.getId()));
             if(rs.next()){
                 String movieSchedule[] = rs.getString("schedule").split("-", 14);
                 int curdamynum = Integer.parseInt(rs.getString("daynum"));
                 int day = curdamynum;
                 int interval = 0;
+                int inplac=1;
                 while(day < 7){
                     ResultSet rsDateFirst = super.getStatement().executeQuery(String.format("SELECT adddate(curdate(), interval '%d' day) AS date;", interval));
                     if(rsDateFirst.next()){
                         String currentTime = movieSchedule[day*2];
                         if(currentTime != null){
                             while(!currentTime.equals(movieSchedule[day*2+1])){
-                                int inplac=1;
-                                for(inplac=1; inplac<6; inplac++) {
-                                    Places schedule = new Places();
+
+
+                                    Places places = new Places();
 
 
                                     Statement statement = super.getConnection().createStatement();
+                                    //взять из бд билеты, которые уже заказали
                                     ResultSet rsOldRecord = statement.executeQuery(String.format("SELECT * FROM ticket \n" +
                                             "INNER JOIN client on ticket.client_id=client.client_id \n" +
                                             "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
-                                            "WHERE movie.movie_id='%d' AND time='%s' AND date='%s'  and place='%s';", movie.getId(), currentTime, rsDateFirst.getString("date"), inplac));
+                                            "WHERE movie.movie_id='%d' AND time='%s' AND date='%s' ;", movie.getId(), currentTime, rsDateFirst.getString("date")));
                                     if (rsOldRecord.next()) {
+                                        for(inplac=1; inplac<6; inplac++) {
 
-//                                        ResultSet rsOldRecordPl = super.getStatement().executeQuery(String.format("SELECT * FROM ticket \n" +
-//                                                "INNER JOIN client on ticket.client_id=client.client_id \n" +
-//                                                "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
-//                                                "WHERE movie.movie_id='%d' AND time='%s' AND date='%s' and place='%s';", movie.getId(), currentTime, rsDateFirst.getString("date"), inplac));
-                                        schedule.setPlace(rsOldRecord.getString("place"));
-                                        schedule.setRegistrationTime(rsOldRecord.getString("registration_date"));
-                                        schedule.setPhoneNumber(rsOldRecord.getString("phone_number"));
-                                        schedule.setComment(rsOldRecord.getString("comment"));
+                                        ResultSet rsOldRecordPl = super.getStatement().executeQuery(String.format("SELECT * FROM ticket \n" +
+                                                "INNER JOIN client on ticket.client_id=client.client_id \n" +
+                                                "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
+                                                "WHERE movie.movie_id='%d' AND time='%s' AND date='%s' and place='%s';", movie.getId(), currentTime, rsDateFirst.getString("date"), inplac));
+
+                                        if (rsOldRecordPl.next()) {
+                                        places.setPlace(rsOldRecordPl.getString("place"));
+                                        places.setRegistrationTime(rsOldRecordPl.getString("registration_date"));
+                                        places.setPhoneNumber(rsOldRecordPl.getString("phone_number"));
+                                        places.setComment(rsOldRecordPl.getString("comment"));}
+                                        }
                                     }
-                                    schedule.setDate(rsDateFirst.getString("date"));
-                                    schedule.setTime(currentTime);
-                                    placesList.add(schedule);
+                                    places.setDate(rsDateFirst.getString("date"));
+                                    places.setTime(currentTime);
+                                    placesList.add(places);
 
 
                                     String hms[] = currentTime.split(":");
@@ -203,7 +210,7 @@ public class DAO extends DbConnector{
                                         currentTime = "0" + String.valueOf(hour) + ":" + hms[1] + ":" + hms[2];
                                     else currentTime = String.valueOf(hour) + ":" + hms[1] + ":" + hms[2];
                                 }
-                            }
+
                         }
                     }
                     interval=interval+1;
@@ -225,10 +232,18 @@ public class DAO extends DbConnector{
                                         "WHERE movie.movie_id='%d' AND time='%s' AND date='%s';", movie.getId(), currentTime, rsDateFirst.getString("date")));
 
                                     if(rsOldRecord1.next()){
-                                        schedule.setPlace(rsOldRecord1.getString("place"));
-                                        schedule.setRegistrationTime(rsOldRecord1.getString("registration_date"));
-                                        schedule.setPhoneNumber(rsOldRecord1.getString("phoneNumber"));
-                                        schedule.setComment(rsOldRecord1.getString("comment"));
+                                        for(inplac=1; inplac<6; inplac++) {
+
+                                            ResultSet rsOldRecordPl1 = super.getStatement().executeQuery(String.format("SELECT * FROM ticket \n" +
+                                                    "INNER JOIN client on ticket.client_id=client.client_id \n" +
+                                                    "INNER JOIN movie on ticket.movie_id=movie.movie_id\n" +
+                                                    "WHERE movie.movie_id='%d' AND time='%s' AND date='%s' and place='%s';", movie.getId(), currentTime, rsDateFirst.getString("date"), inplac));
+
+                                            if (rsOldRecordPl1.next()) {
+                                        schedule.setPlace(rsOldRecordPl1.getString("place"));
+                                        schedule.setRegistrationTime(rsOldRecordPl1.getString("registration_date"));
+                                        schedule.setPhoneNumber(rsOldRecordPl1.getString("phoneNumber"));
+                                        schedule.setComment(rsOldRecordPl1.getString("comment"));}}
                                     }
                                     schedule.setDate(rsDateFirst.getString("date"));
                                     schedule.setTime(currentTime);
@@ -427,8 +442,8 @@ public class DAO extends DbConnector{
         }
         String statement = String.format("UPDATE movie  \n" +
                         "SET name='%s',genre='%s',country='%s',year='%s',duration='%s',ageLimit='%s',producer='%s',schedule='%s'\n" +
-                        "WHERE user.user_id='%d';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(),
-                movie.getDuration(), movie.getAgeLimit(), movie.getProducer(),   movie.getSchedule());
+                        "WHERE movie.movie_id='%d';", movie.getName(), movie.getGenre(), movie.getCountry(), movie.getYear(),
+                movie.getDuration(), movie.getAgeLimit(), movie.getProducer(),   schedule, movie.getId());
         return updateData(statement);
     }
     //обновление моих пользовательских данных

@@ -531,7 +531,7 @@ public class UserFrame  extends JFrame{
             for(int i = 0; i<message.length;i++){
                 if(message[i] == null) message[i] = "";
             }
-            String filePath = "С:\\Work\\" + message[2] + ".txt";
+            String filePath = "D:\\" + message[2] + ".txt";
             File file= new File(filePath);
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write("------Билет на сеанс------\r\n");
@@ -541,7 +541,7 @@ public class UserFrame  extends JFrame{
             writer.write("Номер телефона:" + message[2] + "\r\n");
             writer.write("--------------------------\r\n");
             writer.close();
-            JOptionPane.showMessageDialog(null, "Результат распечатан в файл на диск С!", "Результат", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Результат распечатан в файл на диск D!", "Результат", JOptionPane.INFORMATION_MESSAGE);
             refreshData();
             clearEditAndPasswordForm();
         }

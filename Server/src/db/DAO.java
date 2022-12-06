@@ -324,17 +324,16 @@ public class DAO extends DbConnector{
         try{
             ResultSet rs = super.getStatement().executeQuery(String.format("select * from ticket \n" +
                     "inner join client on ticket.client_id=client.client_id\n" +
-                    "inner join movie on ticket.movie_id=movie.movie_id\n" +
-                    //"inner join user on doctor.user_id=user.user_id\n" +
                     "inner join person on person.person_id=client.person_id\n" +
+                    "inner join movie on ticket.movie_id=movie.movie_id\n" +
                     "where ticket.ticket_id='%d';", ticket.getId()));
             while(rs.next()){
                 String result = "";
                 result += rs.getString("date") + "#";
                 result += rs.getString("time") + "#";
-                result += rs.getString("phone") + "#";
+                result += rs.getString("personal_phone") + "#";
                 result += rs.getString("place") + "#";
-                result += rs.getString("name_m" ) + "#";/*перименовать потом, чтобы бралось название фильма, а не имя клиента*/
+                //result += rs.getString("title" ) + "#";
                 result += rs.getString("surname") + "#";
                 result += rs.getString("name") + "#";
                 result += rs.getString("lastname") + "#";

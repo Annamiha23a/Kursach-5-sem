@@ -132,7 +132,7 @@ public class UserFrame  extends JFrame{
         //placeCom.addActionListener();
         viewPlaces.addActionListener(e -> viewPlace(USER_ID));
         placeCom.setFont(new Font("Serif", Font.BOLD, 16));
-        placeCom.setBackground(Color.RED);
+//        placeCom.setBackground(Color.RED);
 
         deleteClientButton.addActionListener(e -> deleteClientActionPerformed());
         printCheckButton.addActionListener(e -> printCheckButtonActionPerformed());

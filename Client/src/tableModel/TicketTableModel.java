@@ -2,6 +2,7 @@ package tableModel;
 
 import model.Client;
 import model.Ticket;
+import model.Movie;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -13,12 +14,14 @@ public class TicketTableModel implements TableModel{
     private Set<TableModelListener> listeners = new HashSet<TableModelListener>();
 
     private List<Client> clients;
+    private List<Movie> movies;
 
     private List<Ticket> tickets;
 
     public TicketTableModel(List<Ticket> tickets , List<Client> clients){
         this.tickets = tickets;
         this.clients = clients;
+
     }
 
     public String getSurname(Ticket ticket){
@@ -39,7 +42,7 @@ public class TicketTableModel implements TableModel{
 
     @Override
     public int getColumnCount() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -57,6 +60,8 @@ public class TicketTableModel implements TableModel{
                 return "Фамилия";
             case 5:
                 return "Комментарий";
+            case 6:
+                return "ID Фильма";
         }
         return "";
     }
@@ -70,6 +75,7 @@ public class TicketTableModel implements TableModel{
             case 3: return String.class;
             case 4: return String.class;
             case 5: return String.class;
+            case 6: return String.class;
             default: return Object.class;
         }
     }
@@ -95,6 +101,8 @@ public class TicketTableModel implements TableModel{
                 return getSurname(ticket);
             case 5:
                 return ticket.getComment();
+            case 6:
+                return ticket.getMovie_id();
         }
         return null;
     }

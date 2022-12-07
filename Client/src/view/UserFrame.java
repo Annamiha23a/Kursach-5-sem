@@ -9,6 +9,7 @@ import tableModel.addRecordTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
@@ -57,6 +58,7 @@ public class UserFrame  extends JFrame{
     private JButton printCheckButton;
     private JButton statsButton;
     private JComboBox placeCom;
+    private JButton viewPlaces;
     private ArrayList<Admin> admins = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Movie> movies = new ArrayList<>();
@@ -128,6 +130,10 @@ public class UserFrame  extends JFrame{
         });
         addRecordButton.addActionListener(e -> addRecordButtonActionPerformed());
         //placeCom.addActionListener();
+        viewPlaces.addActionListener(e -> viewPlace(USER_ID));
+        placeCom.setFont(new Font("Serif", Font.BOLD, 16));
+        placeCom.setBackground(Color.RED);
+
         deleteClientButton.addActionListener(e -> deleteClientActionPerformed());
         printCheckButton.addActionListener(e -> printCheckButtonActionPerformed());
         statsButton.addActionListener(e -> statsButtonActionPerformed());
@@ -266,6 +272,13 @@ public class UserFrame  extends JFrame{
     //-------------------------------ФУНКЦИИ-СЛУШАТЕЛИ-------------------------------
 
 
+    private void viewPlace(int USER_ID){
+        Client client = clients.get(recordClientsTable.getSelectedRow());
+        Movie movie = currentmovies.get(recordMoviesTable.getSelectedRow());
+        Places places = currentplaces.get(addPlaceTable.getSelectedRow());
+        new PlacesFrame(USER_ID, places).setVisible(true);
+        dispose();
+    }
     //закрытие окна
     private void closeFrameActionPerformed(){
         new MainFrame().setVisible(true);
@@ -469,8 +482,11 @@ public class UserFrame  extends JFrame{
         Client client = clients.get(recordClientsTable.getSelectedRow());
         Movie movie = currentmovies.get(recordMoviesTable.getSelectedRow());
         Places places = currentplaces.get(addPlaceTable.getSelectedRow());
+
         Ticket ticket = new Ticket();
         int ind=placeCom.getSelectedIndex();
+
+
         if (ind==0){
             JOptionPane.showMessageDialog(null, "Вы не выбрали место!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;}
@@ -580,4 +596,6 @@ public class UserFrame  extends JFrame{
         dataSet.setValue(tickets.size(), "", "Кол-во записей на будущее время");
         MainFrame.createGraph(dataSet, "Статистика активности клиентов");
     }
+
+
 }

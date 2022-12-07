@@ -53,8 +53,18 @@ public class PlacesFrame extends JFrame {
             dispose();});
         if(place.getPhoneNumber() == null || place.getPhoneNumber().equals("")){
             button1.setBackground(Color.GREEN);
+            button2.setBackground(Color.GREEN);
+            button3.setBackground(Color.GREEN);
+            button4.setBackground(Color.GREEN);
+            button5.setBackground(Color.GREEN);
 
         }
+        else {
+            button1.setBackground(Color.RED);
+            button2.setBackground(Color.RED);
+            button3.setBackground(Color.RED);
+            button4.setBackground(Color.RED);
+            button5.setBackground(Color.RED);}
 
     }
 

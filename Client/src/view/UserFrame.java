@@ -56,6 +56,7 @@ public class UserFrame  extends JFrame{
     private JScrollPane workClientsTab;
     private JButton printCheckButton;
     private JButton statsButton;
+    private JComboBox placeCom;
     private ArrayList<Admin> admins = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Movie> movies = new ArrayList<>();
@@ -83,12 +84,12 @@ public class UserFrame  extends JFrame{
        workClientsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         recordClientsTable.setModel(clientsModel);
         recordClientsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        TableModel doctorsModel = new MovieTableModel(new ArrayList<>());
-        recordMoviesTable.setModel(doctorsModel);
+        TableModel moviesModel = new MovieTableModel(new ArrayList<>());
+        recordMoviesTable.setModel(moviesModel);
         recordMoviesTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         addPlaceTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        TableModel visitsModel = new TicketTableModel(tickets, clients);
-        recordsTable.setModel(visitsModel);
+        TableModel ticketsModel = new TicketTableModel(tickets, clients);
+        recordsTable.setModel(ticketsModel);
         recordsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         pack();
         setLocationRelativeTo(null);
@@ -126,6 +127,7 @@ public class UserFrame  extends JFrame{
             }
         });
         addRecordButton.addActionListener(e -> addRecordButtonActionPerformed());
+        //placeCom.addActionListener();
         deleteClientButton.addActionListener(e -> deleteClientActionPerformed());
         printCheckButton.addActionListener(e -> printCheckButtonActionPerformed());
         statsButton.addActionListener(e -> statsButtonActionPerformed());
@@ -468,10 +470,26 @@ public class UserFrame  extends JFrame{
         Movie movie = currentmovies.get(recordMoviesTable.getSelectedRow());
         Places places = currentplaces.get(addPlaceTable.getSelectedRow());
         Ticket ticket = new Ticket();
+        int ind=placeCom.getSelectedIndex();
+        if (ind==0){
+            JOptionPane.showMessageDialog(null, "Вы не выбрали место!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            return;}
+        String pl="";
+        if(ind==1) pl="1";
+        //else {if(ind==2)}
+        switch (ind){
+            case 1: {pl="1";break;}
+            case 2: {pl="2"; break;}
+            case 3: {pl="3";break;}
+            case 4:{pl="4"; break;}
+            case 5:{pl="5"; break;}
+
+        }
         try{
             if(places.getPhoneNumber() == null || places.getPhoneNumber().equals("")){
                 ticket.setDate(places.getDate());
                 ticket.setTime(places.getTime());
+                ticket.setPlace(pl);
                 ticket.setComment(commentTextField.getText());
                 ticket.setMovie_id(movie.getId());
                 ticket.setClient_id(client.getId());
@@ -482,10 +500,10 @@ public class UserFrame  extends JFrame{
                 refreshData();
             }
             else{
-                JOptionPane.showMessageDialog(null, "На данное время уже есть запись!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "На данное место уже есть запись!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }catch (Exception ex){
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка нового билета", JOptionPane.ERROR_MESSAGE);
         }
     }
 

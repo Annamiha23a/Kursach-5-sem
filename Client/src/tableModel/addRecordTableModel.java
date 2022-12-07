@@ -25,7 +25,7 @@ public class addRecordTableModel implements TableModel{
 
     @Override
     public int getColumnCount() {
-        return 6;
+        return 2;
     }
 
     @Override
@@ -35,14 +35,14 @@ public class addRecordTableModel implements TableModel{
                 return "Дата";
             case 1:
                 return "Время";
-            case 2:
-                return "Место";
-            case 3:
-                return "Дата регистрации записи";
-            case 4:
-                return "Номер телефона клиента";
-            case 5:
-                return "Комментарий";
+//            case 2:
+//                return "Место";
+//            case 3:
+//                return "Дата регистрации записи";
+//            case 4:
+//                return "Номер телефона клиента";
+//            case 5:
+//                return "Комментарий";
         }
         return "";
     }
@@ -52,10 +52,10 @@ public class addRecordTableModel implements TableModel{
         switch (columnIndex) {
             case 0: return String.class;
             case 1: return String.class;
-            case 2: return String.class;
-            case 3: return String.class;
-            case 4: return String.class;
-            case 5: return String.class;
+//            case 2: return String.class;
+//            case 3: return String.class;
+//            case 4: return String.class;
+//            case 5: return String.class;
             default: return Object.class;
         }
     }
@@ -73,14 +73,14 @@ public class addRecordTableModel implements TableModel{
                 return sch.getDate();
             case 1:
                 return sch.getTime();
-            case 2:
-                return sch.getPlace();
-            case 3:
-                return sch.getRegistrationTime();
-            case 4:
-                return sch.getPhoneNumber();
-            case 5:
-                return sch.getComment();
+//            case 2:
+//                return sch.getPlace();
+//            case 3:
+//                return sch.getRegistrationTime();
+//            case 4:
+//                return sch.getPhoneNumber();
+//            case 5:
+//                return sch.getComment();
         }
         return null;
     }

@@ -385,7 +385,9 @@ public class DAO extends DbConnector{
 
     public String addTicket(Ticket ticket){
         String addData[] = {
-                String.format("INSERT INTO ticket (registration_date, date, time, place, comment, movie_id, client_id) VALUES(CURDATE(), '%s', '%s', '%s','%s', '%d', '%d');", ticket.getDate(), ticket.getTime(), ticket.getPlace(), ticket.getComment(), ticket.getMovie_id(), ticket.getClient_id())
+                String.format("INSERT INTO ticket (registration_date, date, time, place, comment, movie_id, client_id) " +
+                        "VALUES(CURDATE(), '%s', '%s', '%s','%s', '%d', '%d');", ticket.getDate(), ticket.getTime(), ticket.getPlace(),
+                        ticket.getComment(), ticket.getMovie_id(), ticket.getClient_id())
         };
         return addData(addData);
     }

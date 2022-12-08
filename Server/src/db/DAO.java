@@ -526,8 +526,8 @@ public class DAO extends DbConnector{
     }
     //удаление записи об клиенте
    public String deleteClient(Client client){
-        String statement = String.format("DELETE from client, person, ticket " +
-                "USING client, person, ticket " +
+        String statement = String.format("DELETE from person, client,  ticket " +
+                "USING person,client,  ticket " +
                 "WHERE client.person_id=person.person_id && client.client_id=ticket.client_id && client.client_id='%d';", client.getId());
         try{
             super.getStatement().execute(statement);

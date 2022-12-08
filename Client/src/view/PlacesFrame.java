@@ -30,11 +30,13 @@ public class PlacesFrame extends JFrame {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Места");
-        setSize(600, 300);
+        setSize(1000, 300);
         setContentPane(mainPanel);
         setResizable(false);
+
+
 
 
 
@@ -49,7 +51,7 @@ public class PlacesFrame extends JFrame {
     public PlacesFrame(int USER_ID, Places place) {
 
         initComponents();
-        closeFrameButton.addActionListener(e -> { new UserFrame(USER_ID).setVisible(true);
+        closeFrameButton.addActionListener(e -> {
             dispose();});
         if(place.getPhoneNumber() == null || place.getPhoneNumber().equals("")){
             button1.setBackground(Color.GREEN);

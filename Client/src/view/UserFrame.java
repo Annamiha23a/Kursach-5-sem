@@ -59,6 +59,7 @@ public class UserFrame  extends JFrame{
     private JButton statsButton;
     private JComboBox placeCom;
     private JButton viewPlaces;
+    private JButton statistics;
     private ArrayList<Admin> admins = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Movie> movies = new ArrayList<>();
@@ -137,6 +138,7 @@ public class UserFrame  extends JFrame{
         deleteClientButton.addActionListener(e -> deleteClientActionPerformed());
         printCheckButton.addActionListener(e -> printCheckButtonActionPerformed());
         statsButton.addActionListener(e -> statsButtonActionPerformed());
+        statistics.addActionListener(e -> statisticsclient());
     }
 
 
@@ -277,7 +279,7 @@ public class UserFrame  extends JFrame{
         Movie movie = currentmovies.get(recordMoviesTable.getSelectedRow());
         Places places = currentplaces.get(addPlaceTable.getSelectedRow());
         new PlacesFrame(USER_ID, places).setVisible(true);
-        dispose();
+
     }
     //закрытие окна
     private void closeFrameActionPerformed(){
@@ -492,7 +494,6 @@ public class UserFrame  extends JFrame{
             return;}
         String pl="";
         if(ind==1) pl="1";
-        //else {if(ind==2)}
         switch (ind){
             case 1: {pl="1";break;}
             case 2: {pl="2"; break;}
@@ -532,10 +533,10 @@ public class UserFrame  extends JFrame{
                     output.writeObject("deleteClient");
                     output.writeObject(client);
                     String result = (String) input.readObject();
-                    JOptionPane.showMessageDialog(null, result, "Результат", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, result, "Результат удаления", JOptionPane.INFORMATION_MESSAGE);
                 }
                 catch (Exception e){
-                    JOptionPane.showMessageDialog(null, "Вы не выбрали клиента из списка!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Вы не выбрали клиента из списка!", "Ошибка удаления", JOptionPane.ERROR_MESSAGE);
                 }
                 refreshData();
                 clearEditAndPasswordForm();
@@ -597,5 +598,28 @@ public class UserFrame  extends JFrame{
         MainFrame.createGraph(dataSet, "Статистика активности клиентов");
     }
 
+    private void statisticsclient(){
+        int mult = 0;
+        int fantasy = 0;
+        int horror = 0;
+        int action = 0;
+        int adventure = 0;
+        for(int i = 0; i < clients.size(); i++){
+            if(clients.get(i).getAge().equals("12")) mult++;
+            if(clients.get(i).getAge().equals("14")) fantasy++;
+            if(clients.get(i).getAge().equals("16")) horror++;
+            if(clients.get(i).getAge().equals("18")) action++;
+            if(clients.get(i).getAge().equals("20")) adventure++;
+
+        }
+        DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
+        dataSet.setValue(mult, "", "12");
+        dataSet.setValue(fantasy, "", "14");
+        dataSet.setValue(horror, "", "16");
+        dataSet.setValue(action, "", "18");
+        dataSet.setValue(adventure, "", "20");
+
+        MainFrame.createGraph(dataSet, "Статистика клиентов по возрасту");
+    }
 
 }

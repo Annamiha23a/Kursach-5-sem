@@ -122,6 +122,7 @@ public class AdminFrame extends JFrame{
     private JComboBox saOut;
     private JComboBox suIn;
     private JComboBox suOut;
+    private JButton statistics;
     private ArrayList<Admin> admins = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Movie> movies = new ArrayList<>();
@@ -214,6 +215,7 @@ public class AdminFrame extends JFrame{
                 isBlock();
             }
         });
+        statistics.addActionListener(e -> statisticsfunc());
     }
 
 
@@ -1015,6 +1017,31 @@ public class AdminFrame extends JFrame{
         catch (Exception ex){
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void statisticsfunc(){
+        int mult = 0;
+        int fantasy = 0;
+        int horror = 0;
+        int action = 0;
+        int adventure = 0;
+        for(int i = 0; i < movies.size(); i++){
+            if(movies.get(i).getGenre().equals("Мультик")) mult++;
+            if(movies.get(i).getGenre().equals("Фэнтази")) fantasy++;
+            if(movies.get(i).getGenre().equals("Ужастики")) horror++;
+            if(movies.get(i).getGenre().equals("Боевик")) action++;
+            if(movies.get(i).getGenre().equals("Приключения")) adventure++;
+
+        }
+        DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
+        dataSet.setValue(mult, "", "Мультик");
+        dataSet.setValue(fantasy, "", "Чтение");
+        dataSet.setValue(horror, "", "Ужастики");
+        dataSet.setValue(action, "", "Боевик");
+        dataSet.setValue(adventure, "", "Приключения");
+
+        MainFrame.createGraph(dataSet, "Статистика фильмов по жанрам");
+
     }
 
 }

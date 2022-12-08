@@ -63,6 +63,7 @@ public class MainFrame extends JFrame{
         JFrame frame = new JFrame(title);
         frame.setSize(1000,600);
         JPanel panel = new JPanel();
+
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         panel.removeAll();
@@ -70,6 +71,7 @@ public class MainFrame extends JFrame{
         panel.validate();
         frame.add(panel);
         frame.setVisible(true);
+
     }
 
 

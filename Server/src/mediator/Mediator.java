@@ -10,14 +10,10 @@ public class Mediator {
 
 
     public Mediator(){
-        System.out.println("-------1-------");
         try{
-            System.out.println("-------2-------");
             Socket clientSocket = null;
             try{
-                System.out.println("-------3-------");
                 serverSocket = new ServerSocket(2625);
-                System.out.println("-------4-------");
                 System.out.println("-------Сервер запущен-------");
                 while(true){
                     clientSocket = serverSocket.accept();

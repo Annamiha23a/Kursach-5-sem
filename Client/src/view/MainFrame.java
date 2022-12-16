@@ -5,6 +5,7 @@ import model.User;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -56,6 +58,7 @@ public class MainFrame extends JFrame{
     }
 
     public static void createGraph(DefaultCategoryDataset dataSet, String title){
+        try {
         JFreeChart chart = ChartFactory.createBarChart(title, "", "", dataSet, PlotOrientation.VERTICAL, false, false, false);
         CategoryPlot catPlot = chart.getCategoryPlot();
         catPlot.setRangeGridlinePaint(Color.BLACK);
@@ -63,7 +66,6 @@ public class MainFrame extends JFrame{
         JFrame frame = new JFrame(title);
         frame.setSize(1000,600);
         JPanel panel = new JPanel();
-
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         panel.removeAll();
@@ -71,6 +73,19 @@ public class MainFrame extends JFrame{
         panel.validate();
         frame.add(panel);
         frame.setVisible(true);
+
+
+
+            File barChart3D = new File("D:\\barChart3D.jpeg");
+            ChartUtilities.saveChartAsJPEG(barChart3D, chart, 700, 600);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
 
     }
 
@@ -119,12 +134,12 @@ public class MainFrame extends JFrame{
                             return;
                         }
                         else if(user.getRole().equals("admin")) {
-                            JOptionPane.showMessageDialog(null, "Вход админа", "Вход!", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "вход админа", "Ошибка", JOptionPane.ERROR_MESSAGE);
                             new AdminFrame(user.getId()).setVisible(true);
                             dispose();
                         }
                         else if(user.getRole().equals("user")){
-                            JOptionPane.showMessageDialog(null, "Вход пользователя", "Вход!", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "вход пользователя", "Ошибка", JOptionPane.ERROR_MESSAGE);
                             new UserFrame(user.getId()).setVisible(true);
                            dispose();
                         }

@@ -1035,7 +1035,7 @@ public class AdminFrame extends JFrame{
         }
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
         dataSet.setValue(mult, "", "Мультик");
-        dataSet.setValue(fantasy, "", "Чтение");
+        dataSet.setValue(fantasy, "", "Фэнтази");
         dataSet.setValue(horror, "", "Ужастики");
         dataSet.setValue(action, "", "Боевик");
         dataSet.setValue(adventure, "", "Приключения");
